@@ -109,3 +109,4 @@ export class AppComponent {
 - Call `addHyperlink()` on the same cell again to replace an existing hyperlink
 - **Email**: prefix address with `mailto:`
 - **Internal**: format address as `SheetName!CellAddress`
+- **⚠️ SECURITY**: When adding hyperlinks programmatically, validate and sanitize all URL inputs to prevent malicious links. Never add hyperlinks from untrusted or user-provided sources without proper validation.

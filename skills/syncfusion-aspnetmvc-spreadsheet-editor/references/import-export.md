@@ -27,13 +27,12 @@ namespace YourApp.Controllers
             return Content(Workbook.Open(openRequest));
         }
  
-        public ActionResult Save(SaveSettings saveSettings)
+        public void Save(SaveSettings saveSettings)
         {
             if (saveSettings != null && saveSettings.JSONData != null)
             {
-                return Workbook.Save(saveSettings);
+                Workbook.Save(saveSettings);
             }
-            return View();
         }
  
     }
@@ -46,6 +45,7 @@ namespace YourApp.Controllers
 @using Syncfusion.EJ2
 @using Syncfusion.EJ2.Spreadsheet
 
+@*Rule: Mandatory to add openUrl and saveUrl to perform open and save in Spreadsheet.*@
 @Html.EJS().Spreadsheet("spreadsheet").OpenUrl("Open").SaveUrl("Save").AllowOpen(true).AllowSave(true).Created("onCreated").BeforeSave("beforeSave").SaveComplete("saveComplete").Sheets(sheet =>
     {
         sheet.Name("Report").Add();
@@ -80,15 +80,17 @@ namespace YourApp.Controllers
         spreadsheet.save({ saveType: 'Pdf', fileName: 'SalesReport' });
 
         // === Save with explicit server URL (overrides saveUrl property) ===
-        // NOTE: Replace the demo URL with a valid endpoint in your own backend.
+        // NOTE: Replace the URL with a valid endpoint in your own backend.
         spreadsheet.save({
-            url: 'https://your-server-endpoint/api/spreadsheet/save',
+            // SECURITY: Validate URL against allowlist of trusted domains before use
+            url: 'URL',
             fileName: '[FILE_NAME]',
             saveType: '[EXPORT_TYPE]'
         });
 
         // === To load an excel file from URL/ remote excel file into Spreadsheet ===
-        var response = fetch('https://you-hosted-endpoint/Sample.xlsx'); // fetch the remote url
+        // SECURITY: Validate URL against allowlist of trusted domains before use
+        var response = fetch('URL'); // Replace your actual file path
         response.then(res => res.blob()).then(fileBlob => {
             var file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
             if (spreadsheet) {

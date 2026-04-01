@@ -46,14 +46,15 @@ namespace YourApp.Controllers
 
 <div class="control-pane">
     <div class="control-section spreadsheet-control">
+        @* Rule: Mandatory to add openUrl and saveUrl to perform open and save in Spreadsheet. *@
         <ejs-spreadsheet id="spreadsheet"
-                         openUrl="https://your-path-to-open-controller/open"
-                         saveUrl="https://your-path-to-save-controller/save"
-                         allowOpen="true"
-                         allowSave="true"
-                         created="onCreated"
-                         beforeSave="beforeSave"
-                         saveComplete="saveComplete">
+            openUrl="Open"
+            saveUrl="Save"
+            allowOpen="true"
+            allowSave="true"
+            created="onCreated"
+            beforeSave="beforeSave"
+            saveComplete="saveComplete">
             <e-spreadsheet-sheets>
                 <e-spreadsheet-sheet name="Report">
                 </e-spreadsheet-sheet>
@@ -89,15 +90,17 @@ namespace YourApp.Controllers
         spreadsheet.save({ saveType: 'Pdf', fileName: 'SalesReport' });
 
         // === Save with explicit server URL (overrides saveUrl property) ===
-        // NOTE: Replace the demo URL with a valid endpoint in your own backend.
+        // NOTE: Replace the URL with a valid endpoint in your own backend.
         spreadsheet.save({
-            url: 'https://your-server-endpoint/api/spreadsheet/save',
+            // SECURITY: Validate URL against allowlist of trusted domains before use
+            url: 'URL',
             fileName: '[FILE_NAME]',
             saveType: '[EXPORT_TYPE]'
         });
 
       // === To load an excel file from URL/ remote excel file into Spreadsheet.
-      var response = await fetch('https://you-hosted-endpoint/Sample.xlsx'); // fetch the remote url
+      // SECURITY: Validate URL against allowlist of trusted domains before use
+      var response = await fetch('URL'); // Replace your actual file path
       var fileBlob = await response.blob(); // convert the excel file to blob
       var file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
       if (spreadsheet) {

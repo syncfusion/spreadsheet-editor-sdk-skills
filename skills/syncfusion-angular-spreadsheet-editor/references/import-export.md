@@ -13,6 +13,8 @@ import { BeforeSaveEventArgs, SaveCompleteEventArgs } from '@syncfusion/ej2-spre
   selector: 'app-root',
   standalone: true,
   imports: [SpreadsheetAllModule],
+  // Rule: Mandatory to add openUrl and saveUrl to perform open and save in Spreadsheet.
+  // The openUrl and saveUrl shown below are for demonstration only. For development and production, replace them with your own server endpoints.
   template:
   `<ejs-spreadsheet #spreadsheet
     openUrl="https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/open"
@@ -54,8 +56,10 @@ export class AppComponent {
 
   // Save with explicit server URL (overrides saveUrl property)
   saveWithUrl(): void {
+    // NOTE: Replace the URL with a valid endpoint in your own backend.
     this.spreadsheet.save({
-      url: 'https://your-server-endpoint/api/spreadsheet/save',
+      // SECURITY: Validate URL against allowlist of trusted domains before use
+      url: 'url',
       fileName: 'SalesReport',
       saveType: 'Xlsx'
     });
@@ -73,7 +77,8 @@ export class AppComponent {
 
   // Open from remote URL
   async openFromUrl(): Promise<void> {
-    const response = await fetch('https://your-hosted-endpoint/Sample.xlsx');
+    // SECURITY: Validate URL against allowlist of trusted domains before use
+    const response = await fetch('url'); // Replace your actual file path
     const fileBlob = await response.blob();
     const file     = new File([fileBlob], 'Sample.xlsx');
     this.spreadsheet.open({ file });
@@ -117,7 +122,7 @@ export class AppComponent {
 |---|---|---|---|
 | `saveType` | `string` | Export format | `'Xlsx'`, `'Xls'`, `'Csv'`, `'Pdf'` |
 | `fileName` | `string` | Output file name without extension | `'SalesReport'` |
-| `url` | `string` | Override server endpoint for this save only | `'https://your-server/api/save'` |
+| `url` | `string` | Override server endpoint for this save only | `'https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/save'` |
 
 ### open(openOptions)
 
@@ -139,8 +144,8 @@ Returns a `Promise` resolving to `{ jsonObject: {...} }` — the full workbook s
 
 | Property | Type | Description | Example |
 |---|---|---|---|
-| `openUrl` | `string` | Server endpoint for open operations | `'https://.../open'` |
-| `saveUrl` | `string` | Server endpoint for save operations | `'https://.../save'` |
+| `openUrl` | `string` | Server endpoint for open operations | `'https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/open'` |
+| `saveUrl` | `string` | Server endpoint for save operations | `'https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/save'` |
 | `[allowOpen]` | `boolean` | Enable file open | `true` |
 | `[allowSave]` | `boolean` | Enable file save | `true` |
 

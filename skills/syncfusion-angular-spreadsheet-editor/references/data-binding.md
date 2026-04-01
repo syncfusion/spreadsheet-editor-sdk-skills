@@ -134,7 +134,7 @@ import { DataManager, Query, WebApiAdaptor } from '@syncfusion/ej2-data';
 })
 export class AppComponent {
   dataManager = new DataManager({
-    url: '[API_URL]',                 // Replace with actual endpoint
+    url: 'url',                 // Replace with actual endpoint
     adaptor: new WebApiAdaptor()      // Options: WebApiAdaptor, ODataV4Adaptor, JsonAdaptor
   });
 

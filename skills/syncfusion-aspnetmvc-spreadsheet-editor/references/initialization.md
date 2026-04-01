@@ -144,14 +144,14 @@ namespace YourApp.Controllers
 ## Cshtml Header Section (Layout.cshtml)
 
 - Add the following Syncfusion style and script file references in the `<head>` section of your **Layout.cshtml** file. If the file already contains the below mentioned file references, do not duplicate them. 
-- Replace `{product_version}` with a valid Syncfusion version number (preferably the latest stable version). Do not use unknown or invalid product versions.
+- In below code, we have specified the Syncfusion version as **v33.1.44**. Replace this version number with your installed Syncfusion version if you are using a different release. Ensure the CDN version matches your installed NuGet package version exactly.
 
 ```cshtml
     <!-- Syncfusion ASP.NET MVC controls styles -->
-    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/{product_version}/tailwind3.css" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/33.1.44/tailwind3.css" />
 
     <!-- Syncfusion ASP.NET MVC controls scripts -->
-    <script src="https://cdn.syncfusion.com/ej2/{product_version}/dist/ej2.min.js"></script>    
+    <script src="https://cdn.syncfusion.com/ej2/33.1.44/dist/ej2.min.js"></script>    
 ```
 
 ## Notes

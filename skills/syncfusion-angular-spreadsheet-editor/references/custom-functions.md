@@ -20,7 +20,7 @@ Add custom calculation functions to extend the built-in formula engine in the Sp
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `functionHandler` | `string \| Function` | ✅ | Global handler name or function reference |
+| `functionHandler` | `string \| Function` | ✅ | Function handler name or function reference |
 | `functionName` | `string` | ❌ | Formula name used in cells (uppercase) |
 | `formulaDescription` | `string` | ❌ | Description shown in formula UI |
 
@@ -79,29 +79,36 @@ export class AppComponent {
 
   onCreated(): void {
     // Register custom functions
-    this.spreadsheet.addCustomFunction('DoubleHandler', 'DOUBLE', 'Multiplies value by 2');
-    this.spreadsheet.addCustomFunction('FahrenheitHandler', 'FTOC', 'Fahrenheit to Celsius');
-    this.spreadsheet.addCustomFunction('GradeHandler', 'GRADE', 'Returns letter grade');
+    this.spreadsheetObj.addCustomFunction(this.doubleHandler, 'DOUBLE', 'Multiplies value by 2');
+    this.spreadsheetObj.addCustomFunction(this.fahrenheitHandler, 'FTOC', 'Fahrenheit to Celsius');
+    this.spreadsheetObj.addCustomFunction(this.gradeHandler, 'GRADE', 'Returns letter grade');
 
     // Use in cells
     this.spreadsheet.updateCell({ value: '=DOUBLE(5)' }, 'A1');    // 10
     this.spreadsheet.updateCell({ value: '=FTOC(98.6)' }, 'A2');   // 37
     this.spreadsheet.updateCell({ value: '=GRADE(85)' }, 'A3');    // "B"
   }
+  // Define function handlers
+  doubleHandler(num: number): number {
+    return num * 2;
+  }
+  fahrenheitHandler(f: number): number {
+    return (f - 32) * (5 / 9);
+  }
+  gradeHandler(score: number): string {
+    if (score >= 90) {
+      return 'A';
+    } else if (score >= 80) {
+      return 'B';
+    } else if (score >= 70) {
+      return 'C';
+    } else if (score >= 60) {
+      return 'D';
+    }
+    return 'F';
+  }
 }
 
-// Define handlers in global (window) scope
-(window as any).DoubleHandler = (num: number): number => num * 2;
-
-(window as any).FahrenheitHandler = (f: number): number => (f - 32) * (5 / 9);
-
-(window as any).GradeHandler = (score: number): string => {
-  if (score >= 90) return 'A';
-  if (score >= 80) return 'B';
-  if (score >= 70) return 'C';
-  if (score >= 60) return 'D';
-  return 'F';
-};
 ```
 
 ---
@@ -110,7 +117,7 @@ export class AppComponent {
 
 | Placeholder | Description | Example |
 |---|---|---|
-| `[HANDLER_NAME]` | Global function name in window scope | `'DoubleHandler'`, `'GradeHandler'` |
+| `[HANDLER_NAME]` | Function name in scope | `'doubleHandler'`, `'gradeHandler'` |
 | `[FUNCTION_NAME]` | Formula name used in cells (uppercase) | `'DOUBLE'`, `'FTOC'`, `'GRADE'` |
 | `[DESCRIPTION]` | User-friendly description | `'Multiplies value by 2'` |
 
@@ -120,7 +127,7 @@ export class AppComponent {
 
 - Use `@ViewChild` to access the `SpreadsheetComponent` instance in Angular
 - Register custom functions inside the `(created)` event binding to ensure the spreadsheet is fully initialized
-- Handler functions must be in global (`window`) scope — place them outside the component class
+- Handler functions must be defined.
 - Function names must be **uppercase** and unique — cannot override built-ins like `SUM`, `AVERAGE`
 - Custom functions do not persist across page reloads unless re-registered
 - For better encapsulation, consider registering handlers in a dedicated service or `ngOnInit` lifecycle hook

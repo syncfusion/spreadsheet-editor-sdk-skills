@@ -166,6 +166,8 @@ Loads JSON data from a local file, converts it to Excel format using XlsIO, and 
 
 Retrieves JSON asynchronously from a remote endpoint using HttpClient, converts it to an Excel workbook through XlsIO, and binds the resulting byte array to the Spreadsheet.
 
+> **⚠️ SECURITY**: Only fetch data from **trusted sources**. Use an allowlist of approved URLs and validate all external data to prevent injection attacks. Never use arbitrary user-provided URLs.
+
 ```csharp
 @using System.Text.Json
 @using Syncfusion.XlsIO
@@ -188,8 +190,9 @@ Retrieves JSON asynchronously from a remote endpoint using HttpClient, converts 
     protected override async Task OnInitializedAsync()
     {
         // Define the remote JSON URL
+        // SECURITY: Validate URL against allowlist of trusted domains before use
         // Note: Replace with your actual JSON endpoint URL
-        string jsonUrl = "https://jsonplaceholder.typicode.com/todos";
+        string jsonUrl = "URL";
 
         // Fetch JSON data from the remote URL
         string jsonData = await HttpClient.GetStringAsync(jsonUrl);
@@ -290,6 +293,8 @@ Retrieves JSON asynchronously from a remote endpoint using HttpClient, converts 
 
 Downloads an Excel file from Google Drive using the Drive API with service account authentication, converts the stream to a byte array, and binds it to the Spreadsheet.
 
+> **⚠️ SECURITY**: Only download files from **verified sources**. Validate file IDs against an approved list and verify ownership before downloading. Never accept arbitrary user-provided file IDs.
+
 **Prerequisites:**
 - Google Cloud project in the Google Cloud Console
 - Service account within the GCP project
@@ -382,10 +387,11 @@ Downloads an Excel file from Google Drive using the Drive API with service accou
 - **BeforeSave** fires *before* the workbook is saved and allows you to customize the file name or cancel the operation.
 - `SaveAsync()` supports `SaveOptions` with `FileName` and `SaveType` customization.
 - `SaveAsStreamAsync()` returns a `MemoryStream` for further processing or storage.
-- For Google Drive: replace `Your_file_id` with the actual file ID from the Drive URL.
-  - Example URL: `https://drive.google.com/file/d/abc123xyz456/view` → file ID is `abc123xyz456`.
+- For Google Drive: replace `Your_file_id` with the actual file ID from your Google Drive file URL.
+  - URL format: `[GOOGLE_DRIVE_URL]/file/d/[FILE_ID]/view` → Extract the `[FILE_ID]` portion.
 - For Google Drive: replace `Your_service_account_key_path` with the actual path to your service account JSON key file.
 - **Important:** API methods should **NOT** be called inside `OnInitialized` or `OnParametersSet` lifecycle methods. Even if you call them, they will not work properly. Call API methods in response to user interactions (like button clicks) or in other appropriate lifecycle methods after the component is fully rendered.
+- **Security:** When loading external data (remote JSON, Google Drive), always validate sources using allowlists, sanitize inputs, and implement proper authentication. Never accept arbitrary user-provided URLs or file IDs.
 
 ### Documentation link
 [Blazor Spreadsheet Open and Save](https://help.syncfusion.com/document-processing/excel/spreadsheet/blazor/open-and-save)

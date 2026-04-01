@@ -72,7 +72,7 @@ spreadsheet.sheets[0].ranges = [{
 import { DataManager, Query } from '@syncfusion/ej2-data';
 
 const dataManager = new DataManager({
-  url: '[API_URL]',           // Replace with actual endpoint
+  url: 'url',           // Replace with actual endpoint
   adaptor: 'WebApiAdaptor'    // Options: 'WebApiAdaptor', 'ODataV4Adaptor', 'JsonAdaptor'
 });
 

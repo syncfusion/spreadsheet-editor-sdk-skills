@@ -25,15 +25,17 @@ function Default() {
       spreadsheet.save({ saveType: 'Csv', fileName: 'SalesReport' });
       spreadsheet.save({ saveType: 'Pdf', fileName: 'SalesReport' });
       // === Save with explicit server URL (overrides saveUrl property) ===
-      // NOTE: Replace the demo URL with a valid endpoint in your own backend.
+      // NOTE: Replace the URL with a valid endpoint in your own backend.
       spreadsheet.save({
-        url: 'https://your-server-endpoint/api/spreadsheet/save',
+        // SECURITY: Validate URL against allowlist of trusted domains before use
+        url: 'URL',
         fileName: '[FILE_NAME]',
         saveType: '[EXPORT_TYPE]'
       });
 
       // === To load an excel file from URL/ remote excel file into Spreadsheet.
-      const response = await fetch('https://you-hosted-endpoint/Sample.xlsx'); // fetch the remote url
+      // SECURITY: Validate URL against allowlist of trusted domains before use
+      const response = await fetch('url'); // Replace your actual file path
       const fileBlob = await response.blob(); // convert the excel file to blob
       const file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
       if (spreadsheet) {
@@ -71,7 +73,8 @@ function Default() {
       console.log("Spreadsheet BlobData :", args.blobData)
     };
 
-    //Rule: Mandatory to add openUrl and saveUrl to perform open and save in Spreadsheet.
+  // Rule: Mandatory to add openUrl and saveUrl to perform open and save in Spreadsheet.
+  // The openUrl and saveUrl shown below are for demonstration only. For development and production, replace them with your own server endpoints.
     return (<SpreadsheetComponent openUrl='https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/open' saveUrl='https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/save' ref={spreadsheetRef} allowOpen={true} allowSave={true} created={onCreated} beforeSave={beforeSave} saveComplete={saveComplete}>
                     <SheetsDirective>
                         <SheetDirective name="Report">

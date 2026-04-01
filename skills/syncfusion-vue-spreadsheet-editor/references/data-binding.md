@@ -66,9 +66,9 @@ methods: {
       showFieldAsHeader: true
     }];
 
-    /* === Option 2: Remote DataManager (REST API) === 
+    // === Option 2: Remote DataManager (REST API) === 
     const dataManager = new DataManager({
-      url: "https://your-api-endpoint.com/sales",
+      url: 'url',  // You can utilize your own API endpoint
       adaptor: new WebApiAdaptor()
     });
 
@@ -81,7 +81,7 @@ methods: {
       query: query,
       startCell: "A1",
       showFieldAsHeader: true
-    }];*/
+    }];
 
     /* === Option 3: 2D Array === */
     const gridData = [

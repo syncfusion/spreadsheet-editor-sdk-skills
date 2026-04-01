@@ -79,3 +79,4 @@ Insert, edit, and remove hyperlinks in the Spreadsheet Editor.
 ## Notes
 - Use descriptive link text
 - Styling: Shows blue and underlined
+- **⚠️ SECURITY**: When adding hyperlinks programmatically, validate and sanitize all URL inputs to prevent malicious links. Never add hyperlinks from untrusted or user-provided sources without proper validation.

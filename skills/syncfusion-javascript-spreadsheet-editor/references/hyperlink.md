@@ -87,3 +87,4 @@ const spreadsheet: Spreadsheet = new Spreadsheet({
 - **Change Target**: Use `beforeHyperlinkClick` event to dynamically override `args.target` at runtime
 - **Edit**: Call `addHyperlink()` again on same cell to replace existing hyperlink
 - **Gotcha**: `allowHyperlink: true` must be set at initialization
+- **⚠️ SECURITY**: When adding hyperlinks programmatically, validate and sanitize all URL inputs to prevent malicious links. Never add hyperlinks from untrusted or user-provided sources without proper validation.

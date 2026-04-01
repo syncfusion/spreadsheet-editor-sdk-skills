@@ -17,6 +17,11 @@ This repository contains **AI-ready skills** focused on spreadsheet editors acro
 - [**JavaScript Spreadsheet Editor**](./skills/syncfusion-javascript-spreadsheet-editor/) — Examples and guidance for using the Syncfusion Spreadsheet Editor with JavaScript (ES6) and TypeScript applications.
 - [**Vue Spreadsheet Editor**](./skills/syncfusion-vue-spreadsheet-editor/) — Examples and guidance for using the Syncfusion Spreadsheet Editor with Vue applications.
 
+### Desktop Frameworks
+- [**Windows Forms Spreadsheet Editor**](./skills/syncfusion-winforms-spreadsheet-editor/) — Guidance for integrating the Syncfusion `SfSpreadsheet` control into Windows Forms applications (C#). Includes examples for workbook operations, import/export, formulas, charts, data validation and protection, printing, and deployment.
+- [**WPF Spreadsheet Editor**](./skills/syncfusion-wpf-spreadsheet-editor/) — Guidance for integrating the Syncfusion `SfSpreadsheet` control into WPF applications (XAML/C#). Includes samples for data binding/MVVM, styling and theming, formulas and calculations, charting, virtualization/performance, ribbon customization, and deployment.
+- [**UWP Spreadsheet Editor**](./skills/syncfusion-uwp-spreadsheet-editor/) — Guidance for integrating the Syncfusion `SfSpreadsheet` control into UWP applications (XAML/C#). Includes samples for workbook operations, data binding, styling and theming, formulas and calculations, charting, data validation and protection, and deployment.
+
 ## Getting Started
 
 ### How to Integrate Skills
@@ -44,7 +49,13 @@ your-workspace/
 │   │   └── SKILL.md
 │   ├── syncfusion-javascript-spreadsheet-editor/
 │   │   └── SKILL.md
-│   └── syncfusion-vue-spreadsheet-editor/
+│   ├── syncfusion-vue-spreadsheet-editor/
+│   │   └── SKILL.md
+│   ├── syncfusion-winforms-spreadsheet-editor/
+│   │   └── SKILL.md
+│   ├── syncfusion-wpf-spreadsheet-editor/
+│   │   └── SKILL.md
+│   └── syncfusion-uwp-spreadsheet-editor/
 │       └── SKILL.md
 └── your-project-files...
 ```
@@ -108,6 +119,9 @@ How do I protect Sheet1 and allow only cells in the first and last columns to be
 - [Syncfusion ASP.NET MVC Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/asp-net-mvc/overview)
 - [Syncfusion JavaScript Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/javascript-es6/overview)
 - [Syncfusion Vue Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/vue/overview)
+- [Syncfusion Windows Forms Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/winforms/overview)
+- [Syncfusion WPF Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/wpf/overview)
+- [Syncfusion UWP Spreadsheet Editor Documentation](https://help.syncfusion.com/document-processing/excel/spreadsheet/uwp/overview)
 - [Syncfusion Community License](https://www.syncfusion.com/products/communitylicense)
 
 ## License

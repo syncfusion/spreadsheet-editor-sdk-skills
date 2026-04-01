@@ -6,62 +6,63 @@ Add custom calculation functions to extend the built-in formula engine in the Sp
 
 ```vue
 <template>
-  <div class="control-section">
-    <ejs-spreadsheet ref="spreadsheet" :created="onCreated">
-      <e-sheets>
-        <e-sheet :name="Sheet1"></e-sheet>
-      </e-sheets>
-    </ejs-spreadsheet>
-  </div>
+<div class="control-section">
+  <ejs-spreadsheet ref="spreadsheet" :created="onCreated">
+    <e-sheets>
+      <e-sheet :name="Sheet1"></e-sheet>
+    </e-sheets>
+  </ejs-spreadsheet>
+</div>
 </template>
 
 <script>
 import {
-  SpreadsheetComponent,
-  SheetsDirective,
-  SheetDirective
+SpreadsheetComponent,
+SheetsDirective,
+SheetDirective
 } from "@syncfusion/ej2-vue-spreadsheet";
 
 export default {
-  components: {
-    "ejs-spreadsheet": SpreadsheetComponent,
-    "e-sheets": SheetsDirective,
-    "e-sheet": SheetDirective
+components: {
+  "ejs-spreadsheet": SpreadsheetComponent,
+  "e-sheets": SheetsDirective,
+  "e-sheet": SheetDirective
+},
+
+methods: {
+  onCreated() {
+    const s = this.$refs.spreadsheet;
+
+    // Register custom formulas
+    s.addCustomFunction(this.doubleHandler, "DOUBLE", "Multiplies value by 2");
+    s.addCustomFunction(this.greetHandler, "GREET", "Returns greeting message");
+    s.addCustomFunction(this.multiplyHandler, "MULTIPLY", "Multiply three numbers");
+
+    // Use formulas
+    s.updateCell({ formula: "=SQRT(16)" }, "A1");
+    s.updateCell({ formula: "=DOUBLE(5)" }, "A2");
+    s.updateCell({ formula: '=GREET("Alice")' }, "A3");
+    s.updateCell({ formula: "=MULTIPLY(2,3,4)" }, "A4");
   },
-
-  mounted() {
-    // Define global handlers
-    window.DoubleHandler = num => num * 2;
-    window.GreetHandler = name => `Hello, ${name}!`;
-    window.MultiplyHandler = (a, b, c) => a * b * c;
+  doubleHandler(num) {
+    return num * 2;
   },
-
-  methods: {
-    onCreated() {
-      const s = this.$refs.spreadsheet;
-
-      // Register custom formulas
-      s.addCustomFunction("DoubleHandler", "DOUBLE", "Multiplies value by 2");
-      s.addCustomFunction("GreetHandler", "GREET", "Returns greeting message");
-      s.addCustomFunction("MultiplyHandler", "MULTIPLY", "Multiply three numbers");
-
-      // Use formulas
-      s.updateCell({ formula: "=SQRT(16)" }, "A1");
-      s.updateCell({ formula: "=DOUBLE(5)" }, "A2");
-      s.updateCell({ formula: '=GREET("Alice")' }, "A3");
-      s.updateCell({ formula: "=MULTIPLY(2,3,4)" }, "A4");
-    }
+  greetHandler(name) {
+    return `Hello, ${name}!`;
+  },
+  multiplyHandler(a, b, c) {
+    return a * b * c;
   }
+}
 };
 </script>
-
 ```
 
 ## Placeholders
 
 | Placeholder | Description | Example |
 |---|---|---|
-| `[HANDLER_NAME]` | Global function name (window scope) | `'CalculateHandler'`, `'ConvertHandler'` |
+| `[HANDLER_NAME]` | Function name | `'calculateHandler'`, `'convertHandler'` |
 | `[FUNCTION_NAME]` | Formula function name (uppercase) | `'SQRT'`, `'DOUBLE'`, `'MULTIPLY'` |
 | `[DESCRIPTION]` | User-friendly description | `'Calculates square root'`, `'Converts F to C'` |
 | `[PARAM1], [PARAM2]` | Function parameters | `num`, `value`, `celsius` |
@@ -91,22 +92,20 @@ spreadsheet.addCustomFunction((num: number) => num * 2, 'DOUBLE');
 ### Simple Single-Parameter Function
 ```vue
 // Add to created event or after initialization
-spreadsheet.addCustomFunction('InchesToCmHandler', 'INTOCM', 'Convert inches to centimeters');
+spreadsheet.addCustomFunction(this.inchesToCmHandler, 'INTOCM', 'Convert inches to centimeters');
 
-// Define handler globally
-window.InchesToCmHandler = (inches) => {
+inchesToCmHandler(inches) {
   return inches * 2.54;
 };
-
 // Use in formula
 spreadsheet.updateCell({ formula: '=INTOCM(10)' }, 'B1'); // Result: 25.4
 ```
 
 ### Multi-Parameter Function
 ```vue
-spreadsheet.addCustomFunction('TemperatureHandler', 'FTOC', 'Convert Fahrenheit to Celsius');
+spreadsheet.addCustomFunction(this.temperatureHandler, 'FTOC', 'Convert Fahrenheit to Celsius');
 
-window.TemperatureHandler = (fahrenheit) => {
+temperatureHandler(fahrenheit) {
   return (fahrenheit - 32) * (5 / 9);
 };
 
@@ -115,10 +114,9 @@ spreadsheet.updateCell({ formula: '=FTOC(98.6)' }, 'C1'); // Result: 37
 
 ### Function with Multiple Inputs
 ```vue
-spreadsheet.addCustomFunction('CompoundHandler', 'COMPOUND', 'Calculate compound interest');
+spreadsheet.addCustomFunction(this.compoundHandler, 'COMPOUND', 'Calculate compound interest');
 
-window.CompoundHandler = (principal, rate, time) => {
-  // A = P * (1 + r/100)^t
+compoundHandler(principal, rate, time) {
   return principal * Math.pow(1 + rate / 100, time);
 };
 
@@ -127,9 +125,9 @@ spreadsheet.updateCell({ value: '=COMPOUND(1000, 5, 2)' }, 'D1'); // Result: 110
 
 ### Function with Text Output
 ```vue
-spreadsheet.addCustomFunction('GradeHandler', 'GRADE', 'Assign letter grade');
+spreadsheet.addCustomFunction(this.gradeHandler, 'GRADE', 'Assign letter grade');
 
-window.GradeHandler = (score) => {
+gradeHandler(score) {
   if (score >= 90) return 'A';
   if (score >= 80) return 'B';
   if (score >= 70) return 'C';
@@ -142,76 +140,70 @@ spreadsheet.updateCell({ formula: '=GRADE(85)' }, 'E1'); // Result: "B"
 
 ### Function Referencing Cell Values
 ```vue
-spreadsheet.addCustomFunction('SumSquaresHandler', 'SUMSQ', 'Sum of squares of two numbers');
+spreadsheet.addCustomFunction(this.sumSquaresHandler, 'SUMSQ', 'Sum of squares of two numbers');
 
-window.SumSquaresHandler = (a, b) => {
+sumSquaresHandler(a, b) {
   return (a * a) + (b * b);
 };
 
-// Use with cell references
 spreadsheet.updateCell({ formula: '=SUM(A1:A10)' }, 'A11');
-spreadsheet.updateCell({ formula: '=SUMSQ(5, 3)' }, 'A12');        // Result: 34
-spreadsheet.updateCell({ formula: '=SUMSQ(A11, 10)' }, 'A13');    // A11=value, static 10
+spreadsheet.updateCell({ formula: '=SUMSQ(5, 3)' }, 'A12');
+spreadsheet.updateCell({ formula: '=SUMSQ(A11, 10)' }, 'A13');
 ```
 
 ### Function with Array/Range Input (Advanced)
 ```vue
-spreadsheet.addCustomFunction('MaxDiffHandler', 'MAXDIFF', 'Max difference in range');
+spreadsheet.addCustomFunction(this.maxDiffHandler, 'MAXDIFF', 'Max difference in range');
 
-window.MaxDiffHandler = (range) => {
+maxDiffHandler(range) {
   if (!range || range.length === 0) return 0;
   const max = Math.max(...range);
   const min = Math.min(...range);
   return max - min;
 };
-
 ```
 
 ### Namespace Prefix for Organization
 ```vue
-// Add multiple related functions with namespace prefix
-spreadsheet.addCustomFunction('MATH_ABSHandler', 'MATH_ABS', 'Absolute value');
-spreadsheet.addCustomFunction('MATH_POWHandler', 'MATH_POW', 'Power function');
-spreadsheet.addCustomFunction('MATH_SQRTHandler', 'MATH_SQRT', 'Square root');
+spreadsheet.addCustomFunction(this.mathAbsHandler, 'MATH_ABS', 'Absolute value');
+spreadsheet.addCustomFunction(this.mathPowHandler, 'MATH_POW', 'Power function');
+spreadsheet.addCustomFunction(this.mathSqrtHandler, 'MATH_SQRT', 'Square root');
 
-window.MATH_ABSHandler = (num) => Math.abs(num);
-window.MATH_POWHandler = (base, exp) => Math.pow(base, exp);
-window.MATH_SQRTHandler = (num) => Math.sqrt(num);
+mathAbsHandler(num) { return Math.abs(num); }
+mathPowHandler(base, exp) { return Math.pow(base, exp); }
+mathSqrtHandler(num) { return Math.sqrt(num); }
 
-spreadsheet.updateCell({ formula: '=MATH_ABS(-5)' }, 'A1');      // 5
-spreadsheet.updateCell({ formula: '=MATH_POW(2, 3)' }, 'A2');    // 8
-spreadsheet.updateCell({ formula: '=MATH_SQRT(16)' }, 'A3');     // 4
+spreadsheet.updateCell({ formula: '=MATH_ABS(-5)' }, 'A1');
+spreadsheet.updateCell({ formula: '=MATH_POW(2, 3)' }, 'A2');
+spreadsheet.updateCell({ formula: '=MATH_SQRT(16)' }, 'A3');
 ```
 
 ### Function with Error Handling
 ```vue
-spreadsheet.addCustomFunction('SafeDivideHandler', 'SAFEDIV', 'Divide with error handling');
+spreadsheet.addCustomFunction(this.safeDivideHandler, 'SAFEDIV', 'Divide with error handling');
 
-window.SafeDivideHandler = (numerator, denominator) => {
-  if (denominator === 0) {
-    return '#DIV/0!';  // Excel-style error
-  }
+safeDivideHandler(numerator, denominator) {
+  if (denominator === 0) return '#DIV/0!';
   return numerator / denominator;
 };
 
-spreadsheet.updateCell({ formula: '=SAFEDIV(10, 2)' }, 'B1');    // 5
-spreadsheet.updateCell({ formula: '=SAFEDIV(10, 0)' }, 'B2');    // "#DIV/0!"
+spreadsheet.updateCell({ formula: '=SAFEDIV(10, 2)' }, 'B1');
+spreadsheet.updateCell({ formula: '=SAFEDIV(10, 0)' }, 'B2');
 ```
 
 ### Function with Conditional Logic
 ```vue
-spreadsheet.addCustomFunction('DiscountHandler', 'DISCOUNT', 'Apply discount based on amount');
+spreadsheet.addCustomFunction(this.discountHandler, 'DISCOUNT', 'Apply discount based on amount');
 
-window.DiscountHandler = (amount, tier) => {
+discountHandler(amount, tier) {
   let discount = 0;
-  if (tier === 1) discount = 0.05;        // 5% for tier 1
-  else if (tier === 2) discount = 0.10;   // 10% for tier 2
-  else if (tier === 3) discount = 0.15;   // 15% for tier 3
-  
+  if (tier === 1) discount = 0.05;
+  else if (tier === 2) discount = 0.10;
+  else if (tier === 3) discount = 0.15;
   return amount * (1 - discount);
 };
 
-spreadsheet.updateCell({ formula: '=DISCOUNT(100, 2)' }, 'C1');  // 90 (10% discount)
+spreadsheet.updateCell({ formula: '=DISCOUNT(100, 2)' }, 'C1');
 ```
 
 ## Advanced: Function Registration at Initialization
@@ -242,23 +234,20 @@ components: {
 },
 
 mounted() {
-  // Global handlers
-  window.SQRTHandler = num => Math.sqrt(num);
-  window.CubeHandler = num => num ** 3;
-  window.RectAreaHandler = (length, width) => length * width;
+  this.sqrtHandler = num => Math.sqrt(num);
+  this.cubeHandler = num => num ** 3;
+  this.rectAreaHandler = (length, width) => length * width;
 },
 
 methods: {
   onCreated() {
     const s = this.$refs.spreadsheet;
-
     // Array of custom functions
     const customFns = [
-      { handler: "SQRTHandler", name: "SQRT", desc: "Square root" },
-      { handler: "CubeHandler", name: "CUBE", desc: "Cube value" },
-      { handler: "RectAreaHandler", name: "RECTAREA", desc: "Rectangle area" }
+      { handler: this.sqrtHandler, name: "SQRT", desc: "Square root" },
+      { handler: this.cubeHandler, name: "CUBE", desc: "Cube value" },
+      { handler: this.rectAreaHandler, name: "RECTAREA", desc: "Rectangle area" }
     ];
-
     // Register all custom functions
     customFns.forEach(fn => {
       s.addCustomFunction(fn.handler, fn.name, fn.desc);
@@ -281,21 +270,19 @@ methods: {
 ## Notes
 
 - **Best Practice**: Use UPPERCASE for custom function names (follows Excel convention)
-- **Best Practice**: Handler functions must be globally accessible (`window` scope)
+- **Best Practice**: Handler functions must be accessible
 - **Best Practice**: Use namespace prefixes to avoid conflicts (`CUSTOM_`, `APP_`, `BIZ_`)
 - **Best Practice**: Add descriptions to help users understand function purpose
 - **Performance**: Custom functions run on the client; avoid heavy computations
 - **Limitation**: Array/range parameters may not be supported directly; pass individual cells instead
 
 ## Testing Custom Functions
-
 ```vue
-// Test directly in TypeScript
-const result1 = window.SQRTHandler(16);
-console.log(`SQRT(16) = ${result1}`);  // 4
+const result1 = this.sqrtHandler(16);
+console.log(`SQRT(16) = ${result1}`);
 
-const result2 = window.DoubleHandler(5);
-console.log(`DOUBLE(5) = ${result2}`);  // 10
+const result2 = this.doubleHandler(5);
+console.log(`DOUBLE(5) = ${result2}`);
 
 // Test via formula in spreadsheet
 spreadsheet.updateCell({ formula: '=SQRT(25)' }, 'A1');

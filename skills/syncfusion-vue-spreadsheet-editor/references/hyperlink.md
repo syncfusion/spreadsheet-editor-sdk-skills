@@ -84,3 +84,4 @@ methods: {
 - Email Links: Format as 'mailto:email@example.com'
 - Internal Links: Format as 'SheetName!CellRange'
 - Styling: Shows blue and underlined
+- **⚠️ SECURITY**: When adding hyperlinks programmatically, validate and sanitize all URL inputs to prevent malicious links. Never add hyperlinks from untrusted or user-provided sources without proper validation.
