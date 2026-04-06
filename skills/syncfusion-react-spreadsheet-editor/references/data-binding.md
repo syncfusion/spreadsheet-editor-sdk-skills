@@ -37,6 +37,7 @@ function Default() {
 
       // === Option 2: Remote data via DataManager (REST/OData/JSON) ===
       const dataManager = new DataManager({
+        // SECURITY: Validate URL against allowlist of trusted domains before use
         url: 'url',  // You can utilize your own API endpoint
         adaptor: 'WebApiAdaptor'                      // or 'ODataV4Adaptor', 'JsonAdaptor', etc.
       });

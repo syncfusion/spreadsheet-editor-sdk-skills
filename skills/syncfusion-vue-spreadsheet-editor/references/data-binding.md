@@ -68,6 +68,7 @@ methods: {
 
     // === Option 2: Remote DataManager (REST API) === 
     const dataManager = new DataManager({
+      // SECURITY: Validate URL against allowlist of trusted domains before use
       url: 'url',  // You can utilize your own API endpoint
       adaptor: new WebApiAdaptor()
     });

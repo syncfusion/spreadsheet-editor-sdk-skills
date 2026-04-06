@@ -68,14 +68,14 @@ methods: {
     // NOTE: Replace the URL with a valid endpoint in your own backend.
     spreadsheet.save({
       // SECURITY: Validate URL against allowlist of trusted domains before use
-      url: 'https://document.syncfusion.com/web-services/spreadsheet-editor/api/spreadsheet/save',
+      url: 'URL',
       fileName: 'Sample',
       saveType: 'xlsx'
     });
 
     // === To load an excel file from URL/ remote excel file into Spreadsheet.
     // SECURITY: Validate URL against allowlist of trusted domains before use
-    const response = await fetch('https://cdn.syncfusion.com/scripts/spreadsheet/Sample.xlsx'); // Replace your actual file path
+    const response = await fetch('url'); // Replace your actual file path
     const fileBlob = await response.blob(); // convert the excel file to blob
     const file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
     if (spreadsheet) {

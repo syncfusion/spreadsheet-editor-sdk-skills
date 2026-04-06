@@ -189,14 +189,9 @@ Retrieves JSON asynchronously from a remote endpoint using HttpClient, converts 
 
     protected override async Task OnInitializedAsync()
     {
-        // Define the remote JSON URL
         // SECURITY: Validate URL against allowlist of trusted domains before use
-        // Note: Replace with your actual JSON endpoint URL
-        string jsonUrl = "URL";
-
-        // Fetch JSON data from the remote URL
-        string jsonData = await HttpClient.GetStringAsync(jsonUrl);
-
+        string jsonData = await HttpClient.GetStringAsync("URL"); // Note: Replace "URL" with your actual JSON endpoint URL
+        
         // Transform the JSON data to an Excel byte array for Spreadsheet binding
         DataSourceBytes = ConvertJsonToExcel(jsonData);
 
@@ -365,6 +360,7 @@ Downloads an Excel file from Google Drive using the Drive API with service accou
 
             // Download the file into a MemoryStream
             MemoryStream stream = new MemoryStream();
+            // SECURITY: Validate third-party downloaded file before processing to prevent content injection
             await request.DownloadAsync(stream);
 
             return stream;

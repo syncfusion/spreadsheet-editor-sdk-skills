@@ -16,7 +16,7 @@ spreadsheet.appendTo('#spreadsheet');
 
 // === Insert Image ===
 spreadsheet.insertImage([{
-  src: 'https://cdn.syncfusion.com/images/spreadsheet/spreadsheet.png',
+  src: 'url', // Replace with actual image url.
   id: 'img1',
   height: 100,
   width: 100,

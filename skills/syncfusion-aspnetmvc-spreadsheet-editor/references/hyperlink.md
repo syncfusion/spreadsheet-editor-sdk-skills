@@ -70,11 +70,11 @@ Insert, edit, and remove hyperlinks in the Spreadsheet Editor.
 ## Placeholders
 | Placeholder | Description | Example |
 |---|---|---|
-| [CELL_RANGE] | Cell to add link | 'A1' |
-| [LINK_URL] | URL or mailto | 'https://example.com' |
-| [LINK_TEXT] | Display text | 'Click Here' |
-| [TOOLTIP] | Hover tooltip | 'Go to external site' |
-| [INTERNAL_RANGE] | Internal reference | 'Sheet2!A1:D10' |
+| [CELL_RANGE] | Cell to add link | `'A1'` |
+| [LINK_URL] | URL or mailto | `'https://example.com'` |
+| [LINK_TEXT] | Display text | `'Click Here'` |
+| [TOOLTIP] | Hover tooltip | `'Go to external site'` |
+| [INTERNAL_RANGE] | Internal reference | `'Sheet2!A1:D10'` |
 
 ## Notes
 - Use descriptive link text

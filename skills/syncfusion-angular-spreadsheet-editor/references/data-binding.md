@@ -134,6 +134,7 @@ import { DataManager, Query, WebApiAdaptor } from '@syncfusion/ej2-data';
 })
 export class AppComponent {
   dataManager = new DataManager({
+    // SECURITY: Validate URL against allowlist of trusted domains before use
     url: 'url',                 // Replace with actual endpoint
     adaptor: new WebApiAdaptor()      // Options: WebApiAdaptor, ODataV4Adaptor, JsonAdaptor
   });
@@ -435,7 +436,7 @@ export class AppComponent {
 | `[JSON_FILE_PATH]` | Relative path to JSON file | `'./data/products.json'`, `'../assets/sales.json'` |
 | `[DATA_FILE_PATH]` | Relative path to TypeScript/JS file | `'./data/salesData'`, `'../services/dataProvider'` |
 | `[CSV_FILE_PATH]` | Relative path to CSV file | `'./assets/data/products.csv'` |
-| `[API_URL]` | REST API or OData endpoint URL | `'https://api.example.com/products'` |
+| `[API_URL]` | REST API or OData endpoint URL | `'https://example.com'` |
 | `[ROW_COUNT]` | Number of rows to retrieve | `100`, `500`, `1000` |
 | `[SKIP_COUNT]` | Number of rows to skip (pagination) | `0`, `50`, `100` |
 | `[FIELD_1]`, `[FIELD_2]` | Field names to include in query | `'Product'`, `'Price'`, `'Category'` |
@@ -555,7 +556,8 @@ import { DataManager, Query, WebApiAdaptor } from '@syncfusion/ej2-data';
 })
 export class AppComponent {
   dataManager = new DataManager({
-    url: '[API_URL]',
+    // SECURITY: Validate URL against allowlist of trusted domains before use
+    url: 'url', // Replace with actual endpoint
     adaptor: new WebApiAdaptor()
   });
 

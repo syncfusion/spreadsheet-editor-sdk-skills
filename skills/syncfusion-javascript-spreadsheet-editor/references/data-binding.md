@@ -72,6 +72,7 @@ spreadsheet.sheets[0].ranges = [{
 import { DataManager, Query } from '@syncfusion/ej2-data';
 
 const dataManager = new DataManager({
+  // SECURITY: Validate URL against allowlist of trusted domains before use
   url: 'url',           // Replace with actual endpoint
   adaptor: 'WebApiAdaptor'    // Options: 'WebApiAdaptor', 'ODataV4Adaptor', 'JsonAdaptor'
 });
@@ -185,6 +186,7 @@ spreadsheet.sheets[0].ranges = [{
 ```typescript
 // Fetch CSV file and parse into array of objects
 async function loadCSVData(csvFilePath: string) {
+  // SECURITY: Validate URL against allowlist of trusted domains before use
   const response = await fetch(csvFilePath);
   const csvText = await response.text();
   
@@ -225,6 +227,7 @@ const dataFiles: Record<string, string> = {
 
 async function loadDataByType(type: string) {
   const filePath = dataFiles[type];
+  // SECURITY: Validate URL against allowlist of trusted domains before use
   const response = await fetch(filePath);
   const data = await response.json();
   
@@ -261,7 +264,7 @@ await loadDataByType('employees');  // Loads employee data
 | `[JSON_FILE_PATH]` | Relative path to JSON file | `'./data/products.json'`, `'../assets/sales.json'` |
 | `[DATA_FILE_PATH]` | Relative path to TypeScript/JS file | `'./data/salesData'`, `'../services/dataProvider'` |
 | `[CSV_FILE_PATH]` | Relative path to CSV file | `'./data/products.csv'`, `'./exports/inventory.csv'` |
-| `[API_URL]` | REST API or OData endpoint URL | `'https://api.example.com/products'` |
+| `[API_URL]` | REST API or OData endpoint URL | `'https://example.com'` |
 | `[ROW_COUNT]` | Number of rows to retrieve | `100`, `500`, `1000` |
 | `[SKIP_COUNT]` | Number of rows to skip (pagination) | `0`, `50`, `100` |
 | `[FIELD_1]`, `[FIELD_2]` | Field names to include in query | `'Product'`, `'Price'`, `'Category'` |

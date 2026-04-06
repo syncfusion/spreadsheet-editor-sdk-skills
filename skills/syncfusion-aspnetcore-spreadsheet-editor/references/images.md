@@ -26,7 +26,7 @@ Insert and remove images in the Spreadsheet Editor.
         // === Insert Image ===
         // Insert an image from a URL
         spreadsheet.insertImage([{
-            src: 'https://cdn.syncfusion.com/images/spreadsheet/spreadsheet.png',
+            src: 'url', // Replace with actual image url.
             id: 'img1',
             height: 100,
             width: 100,

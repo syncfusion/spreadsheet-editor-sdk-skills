@@ -37,7 +37,7 @@ export default {
       spreadsheet.insertImage(
         [
           {
-            src: 'https://www.w3schools.com/images/w3schools_green.jpg',
+            src: 'url', // Replace with actual image url.
             height: 100,
             width: 100,
             id: 'img1',

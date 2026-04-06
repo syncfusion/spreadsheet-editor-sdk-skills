@@ -46,6 +46,7 @@ Bind local or remote data to the Spreadsheet Editor — load data into sheets/ra
 
         // === Option 2: Remote data via DataManager (REST/OData/JSON) ===
         var dataManager = new ej.data.DataManager({
+            // SECURITY: Validate URL against allowlist of trusted domains before use
             url: 'url', // You can utilize your own API endpoint.
             adaptor: new ej.data.WebApiAdaptor()
         });
