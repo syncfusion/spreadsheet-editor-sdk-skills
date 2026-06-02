@@ -222,3 +222,32 @@ for(int i = 1; i <= 5 ; i++)
    spreadsheet.ActiveGrid.SetRowHeight(i,i,spreadsheet.ActiveSheet.GetRowHeightInPixels(i));
 }
 ```
+---
+## Query Row and Column Dimensions
+
+Retrieve the current height and width of rows and columns for layout information.
+
+### Get Row Height
+
+```csharp
+var sheet = spreadsheet.ActiveSheet;
+
+// Get row height in pixels
+double rowHeightInPixels = sheet.GetRowHeightInPixels(3);
+
+// Get row height in twips (1/20th of a point)
+double rowHeightInTwips = sheet.GetRowHeight(3);
+```
+
+### Get Column Width
+
+```csharp
+var sheet = spreadsheet.ActiveSheet;
+
+// Get column width in pixels
+double columnWidthInPixels = sheet.GetColumnWidthInPixels(2);
+
+// Get column width in twips
+double columnWidthInTwips = sheet.GetColumnWidth(2);
+```
+---

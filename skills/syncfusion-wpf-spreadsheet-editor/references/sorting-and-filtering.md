@@ -40,6 +40,19 @@ spreadsheet.AllowFiltering = false;
 ```xml
 <syncfusion:SfSpreadsheet x:Name="spreadsheet" AllowFiltering="False"/>
 ```
+
+### Remove AutoFilter
+
+```csharp
+spreadsheet.WorkbookLoaded += spreadsheet_WorkbookLoaded;
+
+void spreadsheet_WorkbookLoaded(object sender, WorkbookLoadedEventArgs args)
+{
+    var sheet = spreadsheet.Workbook.ActiveSheet;
+    // Clear the filter range to remove AutoFilter
+    sheet.AutoFilters.FilterRange = null;
+}
+```
 ---
 
 ## Tips & Notes

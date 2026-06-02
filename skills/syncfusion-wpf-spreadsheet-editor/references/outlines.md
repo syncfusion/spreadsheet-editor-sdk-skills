@@ -85,6 +85,87 @@ foreach (OutlineWrapper outline in sheet.OutlineWrappers)
 }
 spreadsheet.RefreshOutlines(true, true);
 ```
+
+## Advanced Outline Operations
+
+### Ungroup All Row Outlines
+
+```csharp
+var sheet = spreadsheet.Workbook.Worksheets[0] as WorksheetImpl;
+foreach (OutlineWrapper outline in sheet.OutlineWrappers)
+{
+    if (outline.GroupBy == ExcelGroupBy.ByRows)
+    {
+        outline.OutlineRange.Ungroup(ExcelGroupBy.ByRows);
+    }
+}
+spreadsheet.RefreshOutlines(true, false);
+```
+
+### Ungroup All Column Outlines
+
+```csharp
+var sheet = spreadsheet.Workbook.Worksheets[0] as WorksheetImpl;
+foreach (OutlineWrapper outline in sheet.OutlineWrappers)
+{
+    if (outline.GroupBy == ExcelGroupBy.ByColumns)
+    {
+        outline.OutlineRange.Ungroup(ExcelGroupBy.ByColumns);
+    }
+}
+spreadsheet.RefreshOutlines(false, true);
+```
+
+### Auto-Collapse Groups
+
+```csharp
+var sheet = spreadsheet.Workbook.Worksheets[0] as WorksheetImpl;
+foreach (OutlineWrapper outline in sheet.OutlineWrappers)
+{
+    // Collapse the group
+    outline.OutlineRange.CollapseGroup(outline.GroupBy);
+    
+    if (outline.GroupBy == ExcelGroupBy.ByRows)
+    {
+        spreadsheet.ActiveGrid.RowHeights.SetHidden(
+            outline.OutlineRange.Row, 
+            outline.OutlineRange.LastRow, 
+            true);
+    }
+}
+spreadsheet.RefreshOutlines(true, true);
+```
+
+### Toggle Outline Summary Row Position
+
+```csharp
+var pageSetup = spreadsheet.ActiveSheet.PageSetup;
+
+// Toggle summary rows position (default is below)
+pageSetup.IsSummaryRowBelow = !pageSetup.IsSummaryRowBelow;
+
+// Also toggle summary columns position
+pageSetup.IsSummaryColumnRight = !pageSetup.IsSummaryColumnRight;
+
+// Refresh the outline display
+spreadsheet.RefreshOutlines(true, true);
+```
+
+### Get Outline Level Count
+
+```csharp
+var sheet = spreadsheet.Workbook.Worksheets[0] as WorksheetImpl;
+if (sheet != null && sheet.OutlineWrappers != null)
+{
+    int maxLevel = 0;
+    foreach (OutlineWrapper outline in sheet.OutlineWrappers)
+    {
+        if (outline.OutlineLevel > maxLevel)
+            maxLevel = outline.OutlineLevel;
+    }
+}
+```
+
 ---
 
 ## References

@@ -134,6 +134,27 @@ spreadsheet.SetZoomFactor("Sheet1", 200);  // zoom in
 spreadsheet.AllowZooming = false;
 ```
 
+### Zoom Event Handling
+
+```csharp
+public MainWindow()
+{
+    InitializeComponent();
+    
+    spreadsheet.ZoomFactorChanging += (s, e) => {
+        // Prevent zoom above 200%
+        if (e.ZoomFactor > 200)
+        {
+            e.Cancel = true;
+        }
+    };
+
+    spreadsheet.ZoomFactorChanged += (s, e) => {
+	
+    };
+}
+```
+
 ---
 
 ## Workbook and Worksheet Events

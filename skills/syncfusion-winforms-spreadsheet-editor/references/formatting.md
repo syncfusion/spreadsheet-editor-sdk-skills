@@ -228,3 +228,33 @@ spreadsheet.Workbook.Worksheets[0].Range[4, 5].Clear(ExcelClearOptions.ClearCond
 - [Merge Cells](merge-cells.md)
 - [Conditional Formatting](conditional-formatting.md)
 - [Editing](editing.md)
+
+## Cell Tooltips and Floating Content
+
+### Cell Tooltips (Comments)
+
+Tooltips for cells can come from comments or hyperlink screentips:
+
+- To enable showing comments in the grid, set the `ShowComment` property on the grid:
+
+```csharp
+spreadsheet.ActiveGrid.ShowComment = true;
+```
+
+### Floating content (images, charts, textboxes)
+
+Objects added via the graphic API (images, charts, textboxes) are rendered above the grid and can be positioned and sized independently of cell layout. Use the shape's `Top`, `Left`, `Height`, and `Width` properties to place floating content.
+
+```csharp
+var shape = spreadsheet.AddImage(spreadsheet.ActiveSheet, new RowColumnIndex(5,5), stream);
+shape.Top = 150;
+shape.Left = 80;
+shape.Height = 200;
+shape.Width = 300;
+
+// Refresh graphic rendering
+spreadsheet.ActiveGrid.GraphicModel.InvalidateGraphicObjects();
+spreadsheet.ActiveGrid.GraphicModel.InvalidateGraphicVisual();
+```
+
+For more advanced image helpers see the Shapes reference: [Shapes, Charts, Sparklines, Pictures, and TextBoxes](shapes.md).

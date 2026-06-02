@@ -335,4 +335,36 @@ void Spreadsheet_PropertyChanged(object sender, PropertyChangedEventArgs e)
 
 ---
 
+## Query Workbook and Worksheet Information
 
+Retrieve metadata and information about workbooks and worksheets programmatically.
+
+### Get Worksheet Count
+
+```csharp
+var workbook = spreadsheet.Workbook;
+
+// Get total number of worksheets
+int worksheetCount = workbook.Worksheets.Count;
+
+// Iterate through worksheets
+foreach (IWorksheet worksheet in workbook.Worksheets)
+{
+    string sheetName = worksheet.Name;
+}
+```
+
+### Get Worksheet Used Range
+
+```csharp
+var sheet = spreadsheet.ActiveSheet;
+
+// Get used range dimensions
+IRange usedRange = sheet.UsedRange;
+
+int firstRow = usedRange.Row;
+int lastRow = usedRange.LastRow;
+int firstColumn = usedRange.Column;
+int lastColumn = usedRange.LastColumn;
+```
+---

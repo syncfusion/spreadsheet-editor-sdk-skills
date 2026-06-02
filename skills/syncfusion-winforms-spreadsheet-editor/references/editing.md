@@ -90,3 +90,34 @@ excelStyle.Locked = true;
 - [Data Validation](data-validation.md)
 - [Hyperlinks](hyperlinks.md)
 - [Protection](protection.md)
+
+## Undo / Redo (HistoryManager)
+
+The `SfSpreadsheet` exposes a `HistoryManager` that provides undo/redo support and transaction management. Use `spreadsheet.HistoryManager` to control undo/redo programmatically.
+
+Key members:
+
+- `BeginTransaction(string description)` — Start a named transaction.
+- `CommitTransaction()` / `CommitTransaction(IRange[] ranges)` — Commit the current transaction.
+- `Push(HistoryCommandBase cmd)` — Push a custom history command onto the stack.
+- `Undo()` — Undo the last command.
+- `Redo()` — Redo the last undone command.
+- `Reset()` — Clears undo/redo stacks.
+
+Simple example:
+
+```csharp
+// Begin a grouped edit
+spreadsheet.HistoryManager.BeginTransaction("Bulk update");
+
+// ... perform multiple worksheet/grid edits here ...
+
+// Commit the transaction so it appears as a single undo step
+spreadsheet.HistoryManager.CommitTransaction();
+
+// Undo the transaction
+spreadsheet.HistoryManager.Undo();
+
+// Redo
+spreadsheet.HistoryManager.Redo();
+```

@@ -65,6 +65,32 @@ copyPaste.Paste(range);
 copyPaste.Paste(range, PasteOptions.Paste);
 ```
 
+### Paste Options (PasteSpecial)
+
+The `SpreadsheetCopyPaste` class exposes a `PasteOptions` enum and related members to control PasteSpecial-like behaviors.
+
+- Property: `AllowPasteOptionPopup` (bool) — Controls whether the paste options popup is shown after a paste.
+- Property: `DefaultPasteOption` (`PasteOptions`) — Gets or sets the default paste option used when pasting.
+- Property: `PasteDropdownItem` (`PasteDropDownItem`) — The dropdown control for paste options.
+
+Common `PasteOptions` usage:
+
+```csharp
+var copyPaste = spreadsheet.ActiveGrid.CopyPaste as SpreadsheetCopyPaste;
+
+// Paste using the default option
+copyPaste.Paste(rangeList);
+
+// Paste using an explicit option (e.g. values only)
+copyPaste.Paste(rangeList, PasteOptions.Value);
+
+// Programmatically change the default paste option
+copyPaste.DefaultPasteOption = PasteOptions.Value;
+
+// Disable showing the paste option popup
+copyPaste.AllowPasteOptionPopup = false;
+```
+
 # Cell Comments
 
 To enable the comment in Spreadsheet, set the ShowComment property of SpreadsheetGrid to true.

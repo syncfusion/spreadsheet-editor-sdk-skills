@@ -111,6 +111,35 @@ spreadsheet.SetRowColumnHeadersVisibility(false);
 //zoom factor
 spreadsheet.SetZoomFactor("Sheet1", 200);
 ```
+
+### Zoom configuration and events
+
+The `Spreadsheet` control exposes zoom-related properties and events to control and respond to zoom changes:
+
+- `AllowZooming` (bool) — Gets or sets whether end users can perform zooming on the control.
+- `SetZoomFactor(string sheetName, int zoomFactor)` — Sets the zoom level for the specified sheet (50–400; 0 = no zoom).
+- `ZoomFactorChanging` — Event raised before the zoom factor changes (can be used to cancel or validate).
+- `ZoomFactorChanged` — Event raised after the zoom factor has changed.
+
+Example:
+
+```csharp
+// Disable user zooming
+spreadsheet.AllowZooming = false;
+
+// Subscribe to zoom events
+spreadsheet.ZoomFactorChanging += (s, e) => {
+	// cancel the zooming process
+	e.Cancel = true;
+};
+
+spreadsheet.ZoomFactorChanged += (s, e) => {
+	
+};
+
+// Programmatically set zoom to 150%
+spreadsheet.SetZoomFactor(spreadsheet.ActiveSheet.Name, 150);
+```
 ## Worksheet Events
 
 | Event | Description |

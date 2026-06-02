@@ -102,5 +102,55 @@ public string ComputeLength(string range)
 
 ---
 
+## Advanced Formula Operations
+
+### Get Calculated Value from Formula
+
+```csharp
+void Spreadsheet_WorkbookLoaded(object sender, WorkbookLoadedEventArgs args)
+{
+    var sheet = spreadsheet.ActiveSheet;
+    sheet.EnableSheetCalculations();
+    // Set a formula
+    sheet["A1"].Formula = "=10+20";
+    
+    // Get the calculated value
+    var calculatedValue = sheet["A1"].CalculatedValue;
+}
+```
+
+### Recalculate Formulas
+
+```csharp
+void RecalculateAllFormulas()
+{
+    var sheet = spreadsheet.ActiveSheet;
+    
+    // Enable calculations on the sheet
+    sheet.EnableSheetCalculations();
+    
+    // Force refresh and recalculation of all cells
+    spreadsheet.ActiveGrid.InvalidateCells();
+}
+```
+
+### Formula in Named Ranges
+
+```csharp
+void CreateFormulaWithNamedRange()
+{
+    var sheet = spreadsheet.ActiveSheet;
+    
+    // Create a named range for data
+    spreadsheet.AddNamedRange("SalesData", "A1:A10", "Sheet1");
+    
+    // Use the named range in a formula
+    sheet["B1"].Formula = "=SUM(SalesData)";
+    sheet["B2"].Formula = "=AVERAGE(SalesData)";
+    sheet["B3"].Formula = "=COUNT(SalesData)";
+}
+```
+---
+
 ## References
 - [Formulas Documentation](https://help.syncfusion.com/wpf/spreadsheet/formulas)

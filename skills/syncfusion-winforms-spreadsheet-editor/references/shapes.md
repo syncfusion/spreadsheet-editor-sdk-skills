@@ -175,3 +175,36 @@ spreadsheet.ActiveGrid.GraphicModel.ClearSelection();
 | `ShapeImpl` | Represents a shape object with positioning and sizing properties |
 | `IChart` | Interface representing a chart object |
 | `ExcelShapeType` | Enum for shape types (Chart, Picture, TextBox, etc.) |
+
+## Advanced image APIs
+
+In addition to `spreadsheet.AddImage(...)`, the `Syncfusion.Windows.Forms.Spreadsheet.GraphicCells.GraphicCellHelper` class exposes helper APIs for adding images programmatically at a lower level. This can be useful when you need to target a specific worksheet or provide a Stream directly.
+
+Example signature (from the WinForms API):
+
+`public static ShapeImpl AddImage(Spreadsheet spreadsheet, IWorksheet worksheet, RowColumnIndex location, Stream imageStream)`
+
+Example usage:
+
+```csharp
+            string resourceName = "WindowsFormsApp1.Data.WF_25298.png";
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                if (stream == null)
+                {
+                    MessageBox.Show("Embedded resource not found:\n" + resourceName);
+                    return;
+                }
+                var worksheet = spreadsheet.Workbook.Worksheets[0];
+                var shape = GraphicCellHelper.AddImage(
+                    spreadsheet,
+                    worksheet,
+                    new RowColumnIndex(5, 5), // Row 5, Column 5
+                    stream
+                );
+                shape.Height = 200;
+                shape.Width = 200;
+            }
+```
+
+This API bypasses some higher-level renderer registration and inserts the image directly into the target worksheet's graphic model.
