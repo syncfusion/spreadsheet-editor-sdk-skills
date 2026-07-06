@@ -4,7 +4,7 @@ description: Use this skill for Angular apps needing Excel-like UI using the Syn
 compatibility: Angular supported version >= 12.x+, Node version >= 14.0.0+ (NPM Package Manager)
 metadata:
   author: Syncfusion Inc
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Spreadsheet Editor
@@ -88,7 +88,8 @@ Placeholders:
 **Workflow:**
 1. Identify the requested Spreadsheet feature (data binding, formulas, charts, export, etc.).
 2. Read the relevant `references/*.md` file(s) to understand the APIs and code patterns for the requested feature.
-3. **STOP before generating code.** Check if the user has already chosen a delivery mode.
+   - For create, initialize, render, package setup, CSS setup, or basic Spreadsheet requests, read `references/getting-started.md` first.
+3. **STOP before generating code, installing packages, creating files, or modifying project files.** Check if the user has already chosen a delivery mode.
 4. **If no delivery mode is chosen yet**, you MUST ask the user first using this concise multiple-choice question:
 
    **"How would you like to receive the generated Spreadsheet code?"**
@@ -96,11 +97,25 @@ Placeholders:
    - **Option 1:** Replace the code in a specific project file (you'll need to provide the file path and confirm)
    - **Option 2:** Save the code in this skill's output folder at `{skill-root}/syncfusion-angular-spreadsheet-editor/output/app.ts` (and related files)
    - **Option 3:** Share the code directly in the chat window
+5. If the user selects **Option 1**, validate the provided project file/folder path before generating or replacing code.
+   - If the provided path is an existing Angular project and contains `package.json`, continue with the previous behavior.
+   - If the provided path is an empty folder or does not contain an Angular project, do **not** edit files and do **not** end the chat.
+   - Explain that an Angular project is required before replacing project files.
+   - Ask whether the user wants to set up/install Angular first using `references/getting-started.md`.
+   - Do not create project files, install packages, or run setup commands automatically unless the user explicitly confirms.
+6. **Only after the user selects a delivery mode and Option 1 path validation is complete**, proceed to generate Angular code using the APIs and snippets from `references/*.md`, substituting concrete placeholders from the user's project.
+7. **Scope implementations within the `created` event handler** — All code implementations should be placed within the Spreadsheet's `created` event unless the user explicitly requests a different event handler (e.g., `beforeSave`, `cellSave`, etc.).
+8. **Do NOT make changes to workspace project files** unless the user explicitly chose Option 1, provided a valid Angular project file/folder path, and gave permission.
+9. If no Angular project or `package.json` is detected, explain that an Angular project is required first and provide setup guidance from `references/getting-started.md`. Do **not** create project files, install packages, or run setup commands automatically unless the user explicitly requested Angular app creation and provided permission.
+10. Create a new Angular application/project **only when the user explicitly asks for it**, such as:
+   - "create an Angular application and render Spreadsheet"
+   - "create a new Angular app with Spreadsheet"
+   - "create Angular app and add Spreadsheet"
+   - "set up a Spreadsheet app from scratch"
 
-5. **Only after the user selects a delivery mode**, proceed to generate Angular code using the APIs and snippets from `references/*.md`, substituting concrete placeholders from the user's project.
-6. **Scope implementations within the `created` event handler** — All code implementations should be placed within the Spreadsheet's `created` event unless the user explicitly requests a different event handler (e.g., `beforeSave`, `cellSaving`, etc.).
-7. **Do NOT make changes to workspace project files** unless the user explicitly chose Option 1 and provided the file path with permission.
-8. Provide complete Angular snippets and concise integration steps after delivering the code.
+   If the user only asks to create, add, render, or configure the Spreadsheet component, do **not** scaffold a new Angular application. Treat it as Spreadsheet component/code generation for an existing Angular project.
+11. When generating code for an existing Angular project, include required package and CSS setup guidance from `references/getting-started.md`.
+12. Provide complete Angular snippets and concise integration steps after delivering the code.
 
 *Refer to `## Rules` section for operational constraints (output directory, temporary files, allowed libraries, etc.)*
 
@@ -113,7 +128,7 @@ All code snippets and examples are in the `references/` folder. Each file contai
 
 | File                          | Topic                                         |
 |-------------------------------|-----------------------------------------------|
-| initialization.md             | Basic Angular setup and options               |
+| getting-started.md             | Project setup, package installation, CSS references, basic rendering, and initial data binding |
 | data-binding.md               | Local arrays, JSON, remote (DataManager)      |
 | formulas.md                   | Formulas, aggregates, named ranges            |
 | formatting.md                 | Cell formatting, borders, wrap text           |
@@ -153,7 +168,7 @@ All code snippets and examples are in the `references/` folder. Each file contai
 
 2. **No inline code in this manifest** — Refer to `references/*.md` for runnable snippets; keep this file as the concise policy and index.
 
-3. **Default event scoping** — All implementations must be placed within the Spreadsheet's `created` event handler unless the user explicitly requests implementation in another event (e.g., `beforeSave`, `cellSaving`, etc.). This ensures all operations occur after the Spreadsheet component is fully initialized.
+3. **Default event scoping** — All implementations must be placed within the Spreadsheet's `created` event handler unless the user explicitly requests implementation in another event (e.g., `beforeSave`, `cellSave`, etc.). This ensures all operations occur after the Spreadsheet component is fully initialized.
 
 4. **Standalone component** — Always use `standalone: true` with `imports` array inside the component. Never generate `NgModule` or `app.module.ts` or `app.component.css` based code.
 
@@ -177,4 +192,12 @@ All code snippets and examples are in the `references/` folder. Each file contai
 - **Output files** must go in `{skill-root}/syncfusion-angular-spreadsheet-editor/output/` directory when user selects Option 2
 - **Only use Syncfusion Spreadsheet APIs** — never recommend or use alternative spreadsheet libraries (e.g., handsontable, ag-grid, luckysheet)
 - **No temporary files** — never create temporary scripts, intermediate files, or scaffolding outside the output directory
-- **Angular-only code** — all generated code must be valid Angular (TypeScript + HTML template), never generate vanilla JavaScript, jQuery, or non-Angular patterns
+- **Angular-only code** — all generated code must be valid Angular TypeScript with Angular template syntax, never generate vanilla JavaScript, jQuery, or non-Angular patterns
+- **Option 1 path validation:** When the user selects Option 1, always validate the provided project file/folder path before editing or replacing files.
+  - If the path contains an existing Angular project with `package.json`, continue with the normal code replacement flow.
+  - If the path is empty or does not contain an Angular project, do not edit files and do not end the chat.
+  - You MUST respond with a follow-up question instead of stopping.
+  - Explain that an Angular project is required before replacing project files.
+  - Ask whether the user wants setup guidance or wants to set up/install Angular first using `references/getting-started.md`.
+  - Do not create project files, install packages, or run setup commands automatically unless the user explicitly confirms.
+- **Angular app creation constraint:** Create or scaffold a new Angular application only when the user explicitly asks for Angular app/project creation, such as “create an Angular application and render Spreadsheet” or “create Angular app and add Spreadsheet”. For normal prompts like “create a spreadsheet with data” or “add Spreadsheet”, treat the request as component code generation for an existing Angular project.

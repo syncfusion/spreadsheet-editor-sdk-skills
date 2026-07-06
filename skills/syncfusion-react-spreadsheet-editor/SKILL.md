@@ -4,7 +4,7 @@ description: Use this skill for React apps needing Excel-like UI using the Syncf
 compatibility: React supported version >= 15.5.4+, Node version >= 14.0.0+ (NPM Package Manager)
 metadata:
   author: Syncfusion Inc
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion React Spreadsheet Editor
@@ -75,7 +75,8 @@ export default Default;
 **Workflow:**
 1. Identify the requested Spreadsheet feature (data binding, formulas, charts, export, etc.).
 2. Read the relevant `references/*.md` file(s) to understand the APIs and code patterns for the requested feature.
-3. **STOP before generating code.** Check if the user has already chosen a delivery mode.
+   - For create, initialize, render, package setup, CSS setup, or basic Spreadsheet requests, read `references/getting-started.md` first.
+3. **STOP before generating code, installing packages, creating files, or modifying project files.** Check if the user has already chosen a delivery mode.
 4. **If no delivery mode is chosen yet**, you MUST ask the user first using this concise multiple-choice question:
 
    **"How would you like to receive the generated Spreadsheet code?"**
@@ -83,10 +84,23 @@ export default Default;
    - **Option 1:** Replace the code in a specific project file (you'll need to provide the file path and confirm)
    - **Option 2:** Save the code in this skill's output folder at `{skill-root}/syncfusion-react-spreadsheet-editor/output/app.jsx` (or `.tsx`)
    - **Option 3:** Share the code directly in the chat window
-
-5. **Only after the user selects a delivery mode**, proceed to generate React(JSX/TSX) code using the APIs and snippets from `references/*.md`, substituting concrete placeholders from the user's project.
-6. **Do NOT make changes to workspace project files** unless the user explicitly chose Option 1 and provided the file path with permission.
-7. Provide complete React snippets and concise integration steps after delivering the code.
+5. If the user selects **Option 1**, validate the provided project file/folder path before generating or replacing code.
+   - If the provided path is an existing React project and contains `package.json`, continue with the previous behavior.
+   - If the provided path is an empty folder or does not contain a React project, do **not** edit files and do **not** end the chat.
+   - Explain that a React project is required before replacing project files.
+   - Ask whether the user wants to set up/install React first using `references/getting-started.md`.
+   - Do not create project files, install packages, or run setup commands automatically unless the user explicitly confirms.
+6. **Only after the user selects a delivery mode and Option 1 path validation is complete**, proceed to generate React(JSX/TSX) code using the APIs and snippets from `references/*.md`, substituting concrete placeholders from the user's project.
+7. **Do NOT make changes to workspace project files** unless the user explicitly chose Option 1, provided a valid React project file/folder path, and gave permission.
+8. If no React project or `package.json` is detected, explain that a React project is required first and provide setup guidance from `references/getting-started.md`. Do **not** create project files, install packages, or run setup commands automatically unless the user explicitly requested React app creation and provided permission.
+9. Create a new React application/project **only when the user explicitly asks for it**, such as:
+   - "create a React application and render Spreadsheet"
+   - "create a new React app with Spreadsheet"
+   - "create Vite/Next.js app and add Spreadsheet"
+   
+   If the user only asks to create, add, render, or configure the Spreadsheet component, do **not** scaffold a new React application. Treat it as Spreadsheet component/code generation for an existing React project.
+10. When generating code for an existing React project, include required package and CSS setup guidance from `references/getting-started.md`.
+11. Provide complete React snippets and concise integration steps after delivering the code.
 
 *Refer to `## Rules` section for operational constraints (output directory, temporary files, allowed libraries, etc.)*
 
@@ -99,7 +113,7 @@ All code snippets and examples are in the `references/` folder. Each file contai
 
 | File                          | Topic                                         |
 |-------------------------------|-----------------------------------------------|
-| initialization.md             | Basic React setup and options            |
+| getting-started.md            | Project setup, package installation, CSS references, basic rendering, and initial data binding |
 | data-binding.md               | Local arrays, JSON, remote (DataManager)      |
 | formulas.md                   | Formulas, aggregates, named ranges            |
 | formatting.md                 | Cell formatting, borders, wrap text           |
@@ -160,6 +174,14 @@ All code snippets and examples are in the `references/` folder. Each file contai
 - **Only use Syncfusion Spreadsheet APIs** — never recommend or use alternative spreadsheet libraries (e.g., react-spreadsheet, handsontable, ag-grid)
 - **No temporary files** — never create temporary scripts, intermediate files, or scaffolding outside the output directory
 - **React-only code** — all generated code must be valid React (JSX/TSX), never generate vanilla JavaScript, jQuery, or non-React patterns
+- **Option 1 path validation:** When the user selects Option 1, always validate the provided project file/folder path before editing or replacing files.
+  - If the path contains an existing React project with `package.json`, continue with the normal code replacement flow.
+  - If the path is empty or does not contain a React project, do not edit files and do not end the chat.
+  - You MUST respond with a follow-up question instead of stopping.
+  - Explain that a React project is required before replacing project files.
+  - Ask whether the user wants setup guidance or wants to set up/install React first using `references/getting-started.md`.
+  - Do not create project files, install packages, or run setup commands automatically unless the user explicitly confirms.
+- **React app creation constraint:** Create or scaffold a new React application only when the user explicitly asks for React app/project creation, such as “create a React application and render Spreadsheet” or “create Vite/Next.js app and add Spreadsheet”. For normal prompts like “create a spreadsheet with data” or “add Spreadsheet”, treat the request as component code generation for an existing React project.
 
 ## Security
 

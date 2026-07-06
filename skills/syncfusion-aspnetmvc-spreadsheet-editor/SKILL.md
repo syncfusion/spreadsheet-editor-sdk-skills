@@ -3,7 +3,7 @@ name: syncfusion-aspnetmvc-spreadsheet-editor
 description: Use this skill for ASP.NET MVC apps needing Excel-like UI using the Syncfusion Spreadsheet Component. Trigger for creating, viewing, editing Excel (.xlsx, .xls, .xlsb) and CSV files; embedding spreadsheet editors; data binding from APIs/JSON; using formulas, charts, validation, filtering, or conditional formatting. Also trigger when users reference spreadsheet files ("open xlsx", "load Excel file", "add Syncfusion spreadsheet", "bind data to spreadsheet"). Do NOT trigger for standalone file processing without UI components.
 metadata:
   author: Syncfusion Inc
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion ASP.NET MVC Spreadsheet Editor

@@ -3,7 +3,7 @@ name: syncfusion-blazor-spreadsheet-editor
 description: Use this skill for Blazor apps needing Excel-like UI using the Syncfusion Spreadsheet Component. Trigger for creating, viewing, editing Excel (.xlsx, .xls) files; embedding spreadsheet editors; using formulas, filtering, sorting, or cell formatting. Also trigger when users reference spreadsheet files ("open xlsx", "load Excel file", "add Syncfusion spreadsheet"). Do NOT trigger for standalone file processing without UI components.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Blazor Spreadsheet Editor
