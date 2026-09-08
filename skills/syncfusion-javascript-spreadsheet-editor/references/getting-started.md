@@ -49,22 +49,19 @@ npm install @syncfusion/ej2-spreadsheet --save
 
 ### CSS Imports
 
-Add the required Syncfusion Spreadsheet styles in the project stylesheet, such as `src/styles/styles.css`.
+Install Syncfusion Tailwind3 theme package via npm:
 
-```css
-@import '../../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-spreadsheet/styles/tailwind3.css';
+```bash
+npm install @syncfusion/ej2-tailwind3-theme
 ```
 
-**Important:** Use one Syncfusion theme consistently across the application. This getting-started reference uses `tailwind3.css`. Do not mix `tailwind3.css` with other Syncfusion theme files in the same setup unless the project intentionally supports multiple themes.
+Add the required Syncfusion Spreadsheet style reference in `src/styles/styles.css`. Use the theme that matches your app (tailwind3, material3, bootstrap5, fluent2, etc.).
+
+```css
+@import '../../node_modules/@syncfusion/ej2-tailwind3-theme/styles/spreadsheet/index.css';
+```
+
+**Important:** Use one Syncfusion theme consistently across the application. This getting-started reference uses `Tailwind 3` theme. Do not mix `Tailwind 3` theme with other Syncfusion theme files in the same setup unless the project intentionally supports multiple themes.
 
 **Note**: The stylesheet is already included through the Webpack entry configuration. No additional CSS import is required in any of the code snippets in this topic.
 

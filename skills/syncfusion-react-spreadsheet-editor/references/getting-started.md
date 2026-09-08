@@ -60,37 +60,25 @@ npm install @syncfusion/ej2-react-spreadsheet --save
 
 ### Add CSS References
 
-For Vite or Create React App, add the required Syncfusion Spreadsheet styles in `src/index.css`.
+Install Syncfusion Tailwind3 theme package via npm:
 
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-react-spreadsheet/styles/tailwind3.css';
+```bash
+npm install @syncfusion/ej2-tailwind3-theme
 ```
 
-For Next.js App Router, add the same Syncfusion Spreadsheet styles in `src/app/globals.css`. Because `globals.css` is inside `src/app`, adjust the relative path as required by the project structure. A common App Router path is shown below:
+For Vite or Create React App, Add the required Syncfusion Spreadsheet style reference in `src/index.css`. Use the theme that matches your app (tailwind3, material3, bootstrap5, fluent2, etc.).
 
 ```css
-@import '../../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
-@import '../../node_modules/@syncfusion/ej2-react-spreadsheet/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-tailwind3-theme/styles/spreadsheet/index.css';
 ```
 
-**Important:** Use one Syncfusion theme consistently across the application. This getting-started reference uses `tailwind3.css`. Do not mix `tailwind3.css` with any other Syncfusion theme files in the same setup unless the project intentionally supports multiple themes.
+For Next.js App Router, add the same Syncfusion Spreadsheet style reference in `src/app/globals.css`. Because `globals.css` is inside `src/app`, adjust the relative path as required by the project structure. A common App Router path is shown below:
+
+```css
+@import '../../node_modules/@syncfusion/ej2-tailwind3-theme/styles/spreadsheet/index.css';
+```
+
+**Important:** Use one Syncfusion theme consistently across the application. This getting-started reference uses `Tailwind 3` theme. Do not mix `Tailwind 3` theme with other Syncfusion theme files in the same setup unless the project intentionally supports multiple themes.
 
 ### Basic Spreadsheet Setup
 
