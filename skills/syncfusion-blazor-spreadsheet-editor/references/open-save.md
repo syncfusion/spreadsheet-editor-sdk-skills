@@ -2,9 +2,18 @@
 
 > Open and save the workbook in the spreadsheet editor. Supports loading Excel files from local paths, Base64 strings, JSON data (local or remote), and Google Drive.
 
+### PROPERTIES
+```csharp
+AllowOpen ="true(Default)/false"
+AllowSave ="true(Default)/false"
+```
+
+
 ### EVENTS
 ```csharp
 BeforeSave="OnBeforeSave"
+FileMenuOpening="OnFileMenuOpening"
+FileMenuClosing="OnFileMenuClosing"
 ```
 
 ```csharp
@@ -17,8 +26,39 @@ private void OnBeforeSave(BeforeSaveEventArgs args)
 | Event Arguments | Description |
 |---|---|
 | `FileName` | Gets or sets the file name to be used when saving the workbook (e.g., "Report.xlsx"). You can modify this value to change the output file name. |
+| `SaveType` | The file format type for saving (e.g., "Xlsx", "Csv", "Pdf"). |
 | `Cancel` | Set to `true` to cancel the save operation. |
-| `SaveType (read-only)` | The file format type for saving (e.g., "Xlsx"). |
+| `PdfLayoutSettings` | Configure PDF layout options (Orientation, FitSheetOnOnePage) when SaveType is Pdf. |
+
+
+```csharp
+private void OnFileMenuOpening(FileMenuOpenCloseEventArgs args)
+{
+    // customize your code based on the requirements and check below table for event argument details
+}
+```
+
+**FileMenuOpening Event Arguments**
+| Event Arguments | Description |
+|---|---|
+| `Items` | The collection of menu items that will be displayed in the file menu. You can add, remove, hide, or disable items to customize the menu before it is rendered. |
+| `ParentItem` | The parent menu item when the popup represents a submenu; otherwise, the root menu item. |
+| `Cancel` | Set to `true` to prevent the file menu from opening. |
+
+
+```csharp
+private void OnFileMenuClosing(FileMenuOpenCloseEventArgs args)
+{
+    // customize your code based on the requirements and check below table for event argument details
+}
+```
+
+**FileMenuClosing Event Arguments**
+| Event Arguments | Description |
+|---|---|
+| `Items` | The collection of menu items currently displayed in the file menu. Available for inspection before the menu closes. |
+| `ParentItem` | The parent menu item when the popup represents a submenu; otherwise, the root menu item. |
+| `Cancel` | Set to `true` to prevent the file menu from closing. |
 
 ### BUTTON
 <!-- Refer the below button for creating button and update the API public method calling. -->
@@ -27,17 +67,35 @@ private void OnBeforeSave(BeforeSaveEventArgs args)
 ### API METHODS
 
 ```csharp
-
-// Save: Exports the workbook as "MonthlyReport.xlsx"
+// Save the spreadsheet with specified format and filename
 await SpreadsheetInstance.SaveAsync(new SaveOptions
 {
-    SaveType = SaveType.Xlsx,
-    FileName = "MonthlyReport"
+    SaveType = SAVETYPE,
+    FileName = FILENAME
 });
 
-// SaveAsStreamAsync: Returns the spreadsheet content as a MemoryStream
+// Get spreadsheet as MemoryStream for server storage
 var stream = await SpreadsheetInstance.SaveAsStreamAsync();
 
+// --- Open examples (two concise options) ---
+// NOTE: `OpenAsync` requires a seekable Stream. Use a FileStream or a MemoryStream.
+
+// Example 1 — create a MemoryStream from a file path and open
+string filePath = "wwwroot/default.xlsx"; // placeholder path
+var stream = File.OpenRead("filePath")
+using (var memoryStream = File.OpenRead("filePath"))
+{
+    memoryStream.Position = 0;
+    await SpreadsheetInstance.OpenAsync(memoryStream);
+}
+
+// Example 2 — use a MemoryStream placeholder (populate before calling OpenAsync)
+using (var memoryStream = new MemoryStream())
+{
+    // TODO: populate 'ms' with workbook bytes (e.g., download, convert JSON to Excel, or set from DataSourceBytes)
+    memoryStream.Position = 0;
+    await SpreadsheetInstance.OpenAsync(memoryStream);
+}
 ```
 
 ## Placeholders
@@ -46,6 +104,11 @@ var stream = await SpreadsheetInstance.SaveAsStreamAsync();
 |---|---|---|
 | `#MethodName` | Name of the method calling when clicking the button | SaveWorkbookHandler |
 | `#Button Name` | Provide a meaningful name to button which binds to API method | Save as Excel |
+| `SAVETYPE` | The file format for saving. Supported values: `SaveType.Xlsx`, `SaveType.Xls`, `SaveType.Csv`, `SaveType.Pdf` | `SaveType.Xlsx` |
+| `FILENAME` | Output file name without extension (the file will be named as specified + format extension) | `"MonthlyReport"`, `"DataExport"` |
+| `MEMORYSTREAM` | Byte array containing workbook content used to create a `MemoryStream` for `OpenAsync` (e.g., `DataSourceBytes`) | `DataSourceBytes` |
+| `FILEPATH` | Path to a local workbook file used to create a stream for `OpenAsync`. | `wwwroot/files/sample.xlsx`, `C:\path\to\report.xlsx` |
+
 
 ### OPEN FROM LOCAL JSON FILE
 
@@ -379,9 +442,14 @@ Downloads an Excel file from Google Drive using the Drive API with service accou
 - To load JSON data, first convert it to Excel format using XlsIO, then convert to byte array.
 - For Remote JSON, the component renders only after data is fetched (`IsDataLoaded` flag pattern).
 - Supported file formats for opening: `.xlsx`, `.xls`.
-- Supported file format for saving: `.xlsx`.
-- **BeforeSave** fires *before* the workbook is saved and allows you to customize the file name or cancel the operation.
-- `SaveAsync()` supports `SaveOptions` with `FileName` and `SaveType` customization.
+- Supported file formats for saving: `.xlsx`, `.xls`, `.csv`, `.pdf`.
+- **AllowOpen** is enabled by default; include `AllowOpen="false"` only when you want to **disable** Open feature for spreadsheet.
+- **AllowSave** is enabled by default; include `AllowSave="false"` only when you want to **disable** Save feature for spreadsheet.
+- **BeforeSave** event fires *before* the workbook is saved and allows you to customize the file name, configure PDF layout settings, or cancel the operation.
+- **FileMenuOpening** event fires *before* the file menu popup is displayed and can be used to customize the menu items (add, remove, hide, or disable) or cancel the menu from opening.
+- **FileMenuClosing** event fires *before* the file menu popup closes and can be used to inspect the displayed menu items or cancel the menu from closing.
+- `SaveAsync()` accepts `SaveOptions` parameter with `FileName` and `SaveType` customization.
+- To configure PDF layout settings (Orientation, FitSheetOnOnePage), use the `BeforeSave` event to set `args.PdfLayoutSettings`.
 - `SaveAsStreamAsync()` returns a `MemoryStream` for further processing or storage.
 - For Google Drive: replace `Your_file_id` with the actual file ID from your Google Drive file URL.
   - URL format: `[GOOGLE_DRIVE_URL]/file/d/[FILE_ID]/view` → Extract the `[FILE_ID]` portion.

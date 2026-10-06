@@ -15,12 +15,14 @@ Generates production-ready C# and Razor code for integrating the Syncfusion Blaz
 ## Key Capabilities
 
 - **Data & Binding:** Load from `byte[]`, local JSON file, remote JSON URL, or Google Drive; save via Ribbon
-- **Cell & Range Operations:** Editing with events, UpdateCell, set formulas, autofill, range actions, merge/unmerge cells, cell formatting, number formats
+- **Cell & Range Operations:** Editing with events, UpdateCell, set formulas, autofill, range actions, merge/unmerge cells, cell formatting, number formats, conditional formatting
 - **Rows, Columns & Worksheets:** Insert/resize rows and columns; insert, delete, move, and duplicate worksheets
 - **Data Operations:** filtering, sorting, hyperlink add/edit/remove, cut/copy/paste, cell and range selection
 - **UI & Interactivity:** Hide/show Formula bar , Hide/show Context Menu, custom data rendered via XlsIO
 - **Protection & History:** Sheet and workbook protection/unprotection, undo/redo operations
 - **Images:** Insert, resize, and move images through UI (enabled by default)
+- **Chart:** Insert and delete charts in the active worksheet programmatically via `InsertChartAsync` / `DeleteChartAsync`; configure move, resize, type, theme, legend, data labels, gridlines, and axes through the UI
+- **Ribbon Customization:** Customize the Spreadsheet Ribbon (add/remove/modify ribbon tabs, groups and items)
 
 ## Quick Start Examples
 
@@ -107,19 +109,20 @@ All templates and feature snippets live in `references/*.md`. Each file is a foc
 
 **Flow:** Always start with `references/basic-sample.md`, then merge matched feature snippets into its anchors (`PROPERTY`, `EVENTS`, `BUTTON`, `API METHOD`). If no feature keywords match, return only the basic sample.
 
-**Supported Features:** Editing, Filtering, Sorting, Cell merging, Insert row/column, Hyperlink, Clipboard actions, Cell formatting, open and save, selection
+**Supported Features:** Editing, Filtering, Sorting, Cell merging, Insert row/column, Hyperlink, Clipboard actions, Cell formatting, Conditional formatting, Chart, Ribbon customization, open and save, selection
 
 | File | Purpose |
 |---|---|
 | **basic-sample.md** | Minimal Spreadsheet sample with `byte[]` DataSource and Ribbon |
-| **open-save.md** | Open (`byte[]`, local JSON, remote JSON URL, Google Drive) and Save via Ribbon |
+| **open-save.md** | Open (`byte[]`, local JSON, remote JSON URL, Google Drive) and Save via Ribbon (supported SaveType formats: `Xlsx`, `Xls`, `Csv`, `Pdf`.) |
 | **worksheet.md** | Worksheet insert, delete, move, and duplicate |
 | **cell-range.md** | Autofill & range actions |
 | **merge.md** | Merge cells, unmerge cells |
 | **editing.md** | Bind editing events, UpdateCell, set formula |
 | **formula.md** | Formula bar toggle |
-| **formatting.md** | Number formats and cell formatting |
+| **formatting.md** | Number formats, cell formatting, and conditional formatting |
 | **contextmenu.md** | Toggle context menu |
+| **ribbon-customization.md** | Customize the Spreadsheet Ribbon (add/remove/modify ribbon tabs, groups and items) |
 | **rows-columns.md** | Insert rows/columns, resizing rows/columns |
 | **filtering.md** | Column filtering |
 | **sorting.md** | Multi-column sorting |
@@ -130,6 +133,9 @@ All templates and feature snippets live in `references/*.md`. Each file is a foc
 | **protection.md** | Sheet and workbook protection and unprotection |
 | **custom-data.md** | Create a custom data spreadsheet using XlsIO |
 | **common.md** | Height, Width, ID, CssClass, ActiveSheetIndex, Image |
+| **chart.md** | Visualize cell data with column, bar, line, area, pie, doughnut, and scatter charts |
+| **data-validation.md** | Restricting what users can enter in cells or ranges |
+| **find-and-replace.md** | searching, replacing, and navigating to cells or ranges in the spreadsheet |
 
 ---
 
@@ -142,10 +148,6 @@ All templates and feature snippets live in `references/*.md`. Each file is a foc
 2. **UI interaction feature**
    - The following features support **only UI interaction** and have **no customization options** (no methods, events, or properties):
    - **Gridlines** - Toggle visibility through UI only
-   - **Clear** - Clear content through UI context menu only
-   - **Named Ranges** - Create and manage through UI only
-   - **Protection** - Protect/unprotect sheets through UI only
-   - **Undo/Redo** - Undo and redo actions through UI only
    - **Images** - Image insert, resize and move actions through UI only
    - **Do not generate** methods, events, or properties for these features
    - **Only add** these features if they are explicitly mentioned in `references/*.md` files

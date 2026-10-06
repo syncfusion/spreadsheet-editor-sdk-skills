@@ -91,6 +91,28 @@ spreadsheet.HideSheet("Sheet2");
 spreadsheet.UnhideSheet("Sheet2");
 ```
 
+## Show or Hide Sheet Tabs
+
+The `ShowSheetTabs` property controls the visibility of the sheet tab bar at the bottom of the Spreadsheet. When set to `false`, the entire sheet tab bar is hidden, preventing users from switching between sheets through the tab interface. The default value is `true`, which displays all worksheet tabs.
+
+### Show Sheet Tabs
+
+To display all the worksheet tabs in the workbook, set the `ShowSheetTabs` property to `true`:
+
+```csharp
+//Show Sheet Tabs
+spreadsheet.ShowSheetTabs = true;
+```
+
+### Hide Sheet Tabs
+
+To hide all the worksheet tabs in the workbook, set the `ShowSheetTabs` property to `false`:
+
+```csharp
+//Hide Sheet Tabs
+spreadsheet.ShowSheetTabs = false;
+```
+
 ## Gridlines
 ```csharp
 //To show GridLines

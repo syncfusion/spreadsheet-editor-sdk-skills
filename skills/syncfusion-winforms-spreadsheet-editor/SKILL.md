@@ -132,7 +132,7 @@ Flow: Always start with references/getting-started.md (Prerequisites and Setup R
 | **outline.md** | Group/ungroup rows and columns, collapse/expand groups, outline settings (summary row/column location), clear outlines, OutlineLocation enum |
 | **protection.md** | Worksheet protection (Protect/Unprotect, ExcelSheetProtection options), workbook protection, lock/unlock cells, check protection status |
 | **rows-columns-operations.md** | Insert/delete rows and columns, set row height/column width, hide/show rows and columns, adjust row/column dimensions |
-| **worksheet.md** | Add/remove/rename worksheets, navigate between worksheets, access worksheets, move/copy worksheets, show/hide worksheets, worksheet events |
+| **worksheet.md** | Add/remove/rename worksheets, navigate between worksheets, access worksheets, move/copy worksheets, show/hide worksheets, show/hide sheet tabs, worksheet events |
 | **filtering-and-sorting.md** | AutoFilter enable/disable, filter data (number, text, date, custom), sort data (ascending/descending, custom sort), clear filters/sorting |
 | **find-and-replace.md** | Find cells (FindAll, FindNext), replace functionality, find options (case-sensitive, whole word), search by criteria, navigate results |
 | **selection.md** | Select ranges (single cell, multiple cells, entire row/column), get active cell, select named ranges, selection change events, clear selection |

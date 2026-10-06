@@ -2,6 +2,11 @@
 
 > Users can insert, move, delete and duplicate the worksheet. Many sheet ops are disabled under protection.
 
+###  PROPERTIES
+```csharp
+ShowSheetTabs="true(Default)/false"
+```
+
 ### EVENTS
 ```csharp
 WorksheetAdding="OnWorksheetAdding"
@@ -100,6 +105,7 @@ Hide, Unhide, and Rename are UI-only actions. No public API or event is provided
 ### Notes
 - **WorksheetAdding** fires *before* a new worksheet is added and can be canceled via `args.Cancel = true`.
 - You can modify the sheet name and index in the **WorksheetAdding** event before the sheet is created.
+- **ShowSheetTabs** is enabled by default; include `ShowSheetTabs="false"` only when you want to **disable** sheet tabs for spreadsheet.
 - **Important:** API methods should **NOT** be called inside `OnInitialized` or `OnParametersSet` lifecycle methods. Even if you call them, they will not work properly. Call API methods in response to user interactions (like button clicks) or in other appropriate lifecycle methods after the component is fully rendered.
 
 ### Documentation link

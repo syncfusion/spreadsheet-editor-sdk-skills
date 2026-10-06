@@ -13,12 +13,13 @@ See **[SKILL.md](SKILL.md)** for the full intent-routing guide and rules.
 
 - **Data & Binding:** Load from `byte[]`, local JSON file, remote JSON URL, or Google Drive; save via Ribbon or programmatically
 - **Cell & Range Operations:** Editing with events, UpdateCell, set formulas, autofill, range actions, merge/unmerge cells
-- **Cell Formatting:** Background colors, fonts, alignment, text decoration, number formats, borders
+- **Cell Formatting:** Background colors, fonts, alignment, text decoration, number formats, conditional formatting, borders
 - **Rows, Columns & Worksheets:** Insert/resize rows and columns; insert, delete, move, and duplicate worksheets
 - **Data Operations:** Filtering, sorting, hyperlink add/edit/remove, cut/copy/paste, cell and range selection
 - **UI & Interactivity:** Show/hide Formula bar, show/hide Context Menu, custom data rendering via XlsIO
 - **Protection & History:** Sheet and workbook protection/unprotection, undo/redo operations
 - **Images:** Insert, resize, and move images through UI (enabled by default)
+- **Ribbon Customization:** Customize the Spreadsheet Ribbon (add/remove/modify ribbon tabs, groups and items)
 
 ---
 

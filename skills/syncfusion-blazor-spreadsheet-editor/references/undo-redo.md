@@ -10,12 +10,37 @@
 
 > Reapply an action that was previously undone, allowing end users to move forward through the operation history and restore both data and interface states. Redo actions can be performed via the user interface (UI) without requiring any programmatic customization.
 
-### UI-only Operations
 
-These operations are available only through the user interface. There are no public APIs or events to trigger or customize these operations programmatically.
+### PROPERTY
+```csharp
+AllowUndoRedo="true(Default)/false"
+```
+
+### BUTTON
+<!-- Refer the below button for creating button and update the API public method calling. -->
+<button @onclick="#MethodName">#Button Name</button>
+
+### API Methods
+
+The Spreadsheet exposes public methods to programmatically perform undo and redo operations in addition to the UI controls.
+
+```csharp
+// Reverts the most recent action when available
+SpreadsheetRef.Undo();
+
+// Reapplies the most recently undone action when available
+SpreadsheetRef.Redo();
+```
+
+### Placeholders
+
+| Placeholder | Description | Example |
+|---|---|---|
+| `#MethodName` | Name of the method calling when clicking the button | - |
+| `#Button Name` | Provide a meaning full name to button which binds to API method | - |
 
 **Summary**
-Undo and Redo are UI-only actions. No public API or event is provided to trigger, intercept, or automate these operations.
+Undo and Redo are available via both UI controls and the public `Undo()`/`Redo()` methods.
 
 **How to Perform**
 
@@ -37,12 +62,18 @@ Undo and Redo are UI-only actions. No public API or event is provided to trigger
 | **Ctrl + Y** | Redo the most recently undone action |
 
 ### Limitations
-
-- No public API or event to trigger, intercept, or customize these actions.
-- Cannot be automated or performed programmatically.
 - The undo and redo history is limited to **25 operations** to optimize memory usage; once this limit is reached, older actions are automatically discarded.
 - The history is cleared when worksheet protection is enabled.
 - The redo history is cleared whenever a new action is performed after an undo operation.
+
+### Notes
+
+- **AllowUndoRedo**: default `true`; set `AllowUndoRedo="false"` to disable Undo/Redo UI and history.
+- `Undo()`/`Redo()` operate on the internal history stacks and are no-ops when no actions are available.
+- Respect limitations: history is limited (default 25 entries), history is cleared on sheet protection, and redo is cleared when new actions occur after an undo.
+- These methods have the same protection and state constraints as the UI (do not call while a cell is in edit mode). Use `AllowUndoRedo="false"` to disable history/UI.
+- **Important:** API methods should **NOT** be called inside `OnInitialized` or `OnParametersSet` lifecycle methods. Even if you call them, they will not work properly. Call API methods in response to user interactions (like button clicks) or in other appropriate lifecycle methods after the component is fully rendered.
+
 
 ### Documentation link
 [Blazor Spreadsheet Undo and Redo](https://help.syncfusion.com/document-processing/excel/spreadsheet/blazor/undo-redo)

@@ -80,6 +80,12 @@ await SpreadsheetInstance.InsertRowAsync(ROWINDEX, COUNT, SHEET, ROWPOSITION);
 
 // Insert 2 columns to the right of column index 2
 await SpreadsheetInstance.InsertColumnAsync(COLUMNINDEX, COUNT, SHEET, COLUMNPOSITION);
+
+// Sets the width of a column in pixels on the active or specified sheet.
+await SpreadsheetRef.SetColumnWidthAsync(WIDTH, COLUMNINDEX, SHEETINDEX); 
+
+// Sets the height of a row in pixels on the active or specified sheet.
+await SpreadsheetRef.SetRowHeightAsync(HEIGHT, ROWINDEX, SHEETINDEX);
 ```
 
 ### Placeholders
@@ -94,6 +100,9 @@ await SpreadsheetInstance.InsertColumnAsync(COLUMNINDEX, COUNT, SHEET, COLUMNPOS
 | `ROWPOSITION` |Specifies the position relative to rowIndex where rows should be inserted. Valid values are Above or Below. The default value is Above. |`RowPosition.Above`, `RowPosition.Below`|
 | `COLUMNINDEX` | The zero-based index where the columns should be inserted. If position is Right, columns will be inserted after this index. If position is Left, columns will be inserted at this index. |`2`, `5`|
 | `COLUMNPOSITION` | Specifies the position relative to columnIndex where columns should be inserted. Valid values are Right or Left. The default value is Right. |`ColumnPosition.Left`, `ColumnPosition.Right`|
+| `WIDTH` | Column width in pixels (positive number) | `150` |
+| `SHEETINDEX` | Optional zero-based sheet index where the width will be set; omit to use active sheet | `1` |
+| `HEIGHT` | Row height in pixels (positive number) | `30` |
 
 ### Notes
 - **RowCount** default value is 1000; you can change the number of row count in the spreadsheet.
