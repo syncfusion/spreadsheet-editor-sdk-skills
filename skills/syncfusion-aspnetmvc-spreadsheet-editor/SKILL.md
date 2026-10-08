@@ -129,8 +129,9 @@ All code snippets and examples are in the `references/` folder. Each file contai
 | data-binding.md               | Local arrays, JSON, remote (DataManager)      |
 | formulas.md                   | Formulas, aggregates, named ranges            |
 | formatting.md                 | Cell formatting, borders, wrap text           |
+| rich-text-formatting.md       | Rich text formatting within cells, font styles, colors, sub/superscript |
 | number-formatting.md          | Number formatting, decimals, currency, date   |
-| conditional-formatting.md     | Rules, highlights based on conditions         |
+| conditional-formatting.md     | Rules, highlights based on conditions, formula-based rules |
 | data-validation.md            | Validation rules, invalid highlights          |
 | sorting-filtering.md          | Sorting, filtering                            |
 | find-replace.md               | Find, replace                                 |
@@ -157,7 +158,8 @@ All code snippets and examples are in the `references/` folder. Each file contai
 | context-menu.md               | Right-click context menu, contextMenuBeforeOpen |
 | localization.md               | Multi-language, locale, RTL, number/date formats |
 | events.md                     | Event handling, event properties, event patterns |
-| autofill.md                   | Autofill patterns, fill types, series       |
+| autofill.md                   | Autofill patterns, fill types, series         |
+| collaborative-editing.md      | Real-time collaborative editing, shared workbook synchronization, presence indicators |
 
 ## Key Rules for Code Generation (ASP.NET MVC (cshtml)-first)
 

@@ -88,6 +88,31 @@ Apply rules to automatically format cells based on their values (e.g., highlight
         range: 'J2:J100'
       });
 
+        // === Type 8: Formula-based ===
+        // Highlight cells greater than the average of the range using a preset color
+        spreadsheet.conditionalFormat({
+            type: 'Formula',
+            value: '=H2>AVG(H2:H9)',
+            cFColor: 'GreenFT',
+            range: 'H2:H9'
+        });
+
+        // Highlight cells in H6:H9 that exceed 5000
+        spreadsheet.conditionalFormat({
+            type: 'Formula',
+            value: '=H6>5000',
+            cFColor: 'RedT',
+            range: 'H6:H9'
+        });
+
+        // Formula-based with a custom format instead of a preset cFColor
+        spreadsheet.conditionalFormat({
+            type: 'Formula',
+            value: '=B2>700',
+            format: { style: { color: '#ffffff', backgroundColor: '#009999', fontWeight: 'bold' } },
+            range: 'B2:B30'
+        });
+
         // === Clear rules ===
         spreadsheet.clearConditionalFormat('E2:E30'); // Clear specific range
         spreadsheet.clearConditionalFormat();         // Clear all rules
@@ -96,11 +121,24 @@ Apply rules to automatically format cells based on their values (e.g., highlight
 
 ```
 
+## Declarative Formula-based Conditional Format (Tag Helper)
+
+Use `<e-spreadsheet-conditionalformats>` inside the sheet tag helper to define formula-based rules declaratively at initialization:
+
+```cshtml
+<e-spreadsheet-conditionalformats>
+    <e-spreadsheet-conditionalformat type="GreaterThan" cFColor="RedFT" value="700" range="B2:B9"></e-spreadsheet-conditionalformat>
+    <e-spreadsheet-conditionalformat type="Bottom10Items" cFColor="YellowFT" value="4" range="C2:C9"></e-spreadsheet-conditionalformat>
+    <e-spreadsheet-conditionalformat type="BlueDataBar" range="D2:D9"></e-spreadsheet-conditionalformat>
+    <e-spreadsheet-conditionalformat type="Formula" cFColor="GreenFT" value="=H2>AVG(H2:H9)" range="H2:H9"></e-spreadsheet-conditionalformat>
+</e-spreadsheet-conditionalformats>
+```
+
 ## Placeholders for Conditional Format
  
 | Placeholder  | Description                                  | Example                                                             |
 |--------------|----------------------------------------------|---------------------------------------------------------------------|
-| `[TYPE]`     | Specifies the conditional formatting type    | `'HighlightCell'`, `'TopBottom'`, `'DataBar'`, `'ColorScale'`, `'IconSet'` |
+| `[TYPE]`     | Specifies the conditional formatting type    | `'HighlightCell'`, `'TopBottom'`, `'DataBar'`, `'ColorScale'`, `'IconSet'`, `'Formula'` |
 | `[VALUE]`    | Specifies the conditional formatting value   | `'string'`                                                          |
 | `[CFCOLOR]`  | Specifies the highlight color style          | `'RedFT'`, `'GreenFT'`, `'YellowFT'`                               |
 | `[FORMAT]`   | Specifies the format model                   | `'FormatModel'`                                                     |
@@ -141,6 +179,18 @@ type IconSet = 'ThreeArrows' | 'ThreeArrowsGray' | 'FourArrowsGray' |
   'ThreeTrafficLights2' | 'ThreeSigns' | 'FourTrafficLights' | 'FourRedToBlack' |
   'ThreeSymbols' | 'ThreeSymbols2' | 'ThreeFlags' | 'FourRating' | 'FiveQuarters' |
   'FiveRating' | 'ThreeTriangles' | 'ThreeStars' | 'FiveBoxes';
+```
+
+### Formula-based Conditional Format
+```cshtml
+type Formula = 'Formula';
+```
+
+Formula-based conditional formatting applies custom formatting rules using an Excel formula. When the formula in `value` evaluates to `TRUE` for a cell, the formatting (`cFColor` or custom `format`) is applied to that cell. This enables advanced highlighting scenarios based on values from other cells or ranges in the worksheet, beyond the built-in Highlight Cell/Top Bottom conditions.
+
+```javascript
+// Highlight cells in H6:H9 that exceed 5000, referencing the first cell of the range in the formula
+spreadsheet.conditionalFormat({ type: 'Formula', value: '=H6>5000', cFColor: 'RedT', range: 'H6:H9' });
 ```
 
 ## Color Format Values (`cFColor`)

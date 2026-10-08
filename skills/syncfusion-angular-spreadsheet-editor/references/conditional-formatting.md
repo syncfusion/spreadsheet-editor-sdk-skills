@@ -14,6 +14,7 @@ Apply rules to automatically format cells based on their values (e.g., highlight
   - [Data Bar Rules](#data-bar-rules)
   - [Color Scale Rules](#color-scale-rules)
   - [Icon Set Rules](#icon-set-rules)
+  - [Formula-based Conditional Format Rules](#formula-based-conditional-format-rules)
   - [Clear Conditional Formatting](#clear-conditional-formatting)
 - [Template Button Binding Example](#template-button-binding-example)
 - [Type Definitions](#type-definitions)
@@ -63,6 +64,17 @@ export class AppComponent {
 
     // Highlight cells greater than 40 in red
     this.spreadsheet.conditionalFormat({ type: 'GreaterThan', cFColor: 'RedFT', value: '40', range: 'B2:B4' });
+
+    // Apply formula-based conditional format with preset color
+    this.spreadsheet.conditionalFormat({ type: 'Formula', cFColor: 'GreenFT', value: '=B2>AVG(B2:B4)', range: 'B2:B4' });
+
+    // Apply formula-based conditional format with custom style
+    this.spreadsheet.conditionalFormat({
+      type: 'Formula',
+      value: '=C2>40',
+      format: { style: { color: '#ffffff', backgroundColor: '#009999', fontWeight: 'bold' } },
+      range: 'C2:C4'
+    });
   }
 }
 ```
@@ -221,6 +233,36 @@ created(): void {
 }
 ```
 
+### Formula-based Conditional Format Rules
+```typescript
+created(): void {
+  // Highlight cells in H2:H9 greater than the average of the range
+  this.spreadsheet.conditionalFormat({
+    type: 'Formula', cFColor: 'GreenFT', value: '=H2>AVG(H2:H9)', range: 'H2:H9'
+  });
+
+  // Highlight cells in H6:H9 that exceed 5000
+  this.spreadsheet.conditionalFormat({
+    type: 'Formula', cFColor: 'RedT', value: '=H6>5000', range: 'H6:H9'
+  });
+
+  // Apply formula-based conditional format with a custom format instead of a preset cFColor
+  this.spreadsheet.conditionalFormat({
+    type: 'Formula',
+    value: '=B2>700',
+    format: { style: { color: '#ffffff', backgroundColor: '#009999', fontWeight: 'bold' } },
+    range: 'B2:B30'
+  });
+}
+```
+
+Declarative usage in the sheet template:
+```html
+<e-conditionalformats>
+  <e-conditionalformat type="Formula" cFColor="GreenFT" value="=H2>AVG(H2:H9)" range="H2:H9"></e-conditionalformat>
+</e-conditionalformats>
+```
+
 ### Clear Conditional Formatting
 ```typescript
 // Clear rules from a specific range
@@ -344,6 +386,21 @@ type IconSet = 'ThreeArrows' | 'ThreeArrowsGray' | 'FourArrowsGray' |
   'FiveRating' | 'ThreeTriangles' | 'ThreeStars' | 'FiveBoxes';
 ```
 
+### Formula-based Conditional Format
+```typescript
+type Formula = 'Formula';
+```
+
+Formula-based conditional formatting applies custom formatting rules using an Excel formula. When the formula in `value` evaluates to `TRUE` for a cell, the formatting (`cFColor` or custom `format`) is applied to that cell. This enables advanced highlighting scenarios based on values from other cells or ranges in the worksheet, beyond the built-in Highlight Cell/Top Bottom conditions.
+
+```typescript
+// Highlight cells in B2:B30 whose value exceeds a fixed threshold
+this.spreadsheet.conditionalFormat({ type: 'Formula', value: '=B2>700', cFColor: 'RedT', range: 'B2:B30' });
+
+// Highlight cells in H6:H9 that exceed 5000, referencing the first cell of the range in the formula
+this.spreadsheet.conditionalFormat({ type: 'Formula', value: '=H6>5000', cFColor: 'RedT', range: 'H6:H9' });
+```
+
 ---
 
 ## Color Format Values
@@ -374,7 +431,7 @@ The `cFColor` property specifies the fill and text color using built-in Syncfusi
 
 | Placeholder | Description | Example |
 |---|---|---|
-| `[TYPE]` | Conditional formatting type | `'GreaterThan'`, `'BlueDataBar'`, `'ThreeStars'` |
+| `[TYPE]` | Conditional formatting type | `'GreaterThan'`, `'BlueDataBar'`, `'ThreeStars'`, `'Formula'` |
 | `[VALUE]` | Conditional formatting value | `'100'`, `'50,100'`, `'10/15/2023'` |
 | `[CFCOLOR]` | Highlight color style | `'RedFT'`, `'GreenFT'`, `'YellowFT'` |
 | `[FORMAT]` | Format model | `FormatModel` |
@@ -384,6 +441,7 @@ The `cFColor` property specifies the fill and text color using built-in Syncfusi
 
 ## Notes
 
+- Formula-based rules support both the preset `cFColor` styles and a custom `format` (cell style) object.
 - Always access `SpreadsheetComponent` via `@ViewChild` — never use `new Spreadsheet()` in Angular.
 - All `conditionalFormat()` and `clearConditionalFormat()` calls must be placed inside the `created()` event to ensure the component is fully initialized.
 - Use `#spreadsheet` template reference variable on `<ejs-spreadsheet>` to match `@ViewChild('spreadsheet')`.

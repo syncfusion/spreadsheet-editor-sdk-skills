@@ -9,7 +9,6 @@ Apply rules to automatically format cells based on their values (e.g., highlight
 @using Syncfusion.EJ2.Spreadsheet
 
 @{
-    // Data source
     var salesData = new List<object>()
     {
         new { Month = "Jan", Sales = 35 },
@@ -18,19 +17,56 @@ Apply rules to automatically format cells based on their values (e.g., highlight
     };
 }
 
-@Html.EJS().Spreadsheet("spreadsheet").AllowConditionalFormat(true).Created("onCreated").Sheets(sheet =>
+@Html.EJS().Spreadsheet("spreadsheet")
+    .AllowConditionalFormat(true)
+    .Created("onCreated")
+    .Sheets(sheet =>
     {
-        sheet.Name("Sales").Ranges(ranges =>
+        sheet.Name("Sales")
+            .Ranges(ranges =>
             {
-                ranges.DataSource(salesData).StartCell("A1").Add();
-            }).Add();
-    }).Render()
+                ranges.DataSource(salesData)
+                      .StartCell("A1")
+                      .Add();
+            })
+            .ConditionalFormats(cf =>
+            {
+                cf.Type("GreaterThan")
+                  .CFColor("RedFT")
+                  .Value("700")
+                  .Range("B2:B9")
+                  .Add();
+
+                cf.Type("Bottom10Items")
+                  .CFColor("YellowFT")
+                  .Value("4")
+                  .Range("C2:C9")
+                  .Add();
+
+                cf.Type("BlueDataBar")
+                  .Range("D2:D9")
+                  .Add();
+
+                cf.Type("Formula")
+                  .CFColor("GreenFT")
+                  .Value("=H2>AVG(H2:H9)")
+                  .Range("H2:H9")
+                  .Add();
+            })
+            .Add();
+    })
+    .Render()
 
 <script>
-    function onCreated() {
-        var spreadsheet = document.getElementById("spreadsheet").ej2_instances[0];
 
-        // === Type 1: GreaterThan / LessThan ===
+    function onCreated() {
+
+        var spreadsheet =
+            document.getElementById("spreadsheet")
+                .ej2_instances[0];
+
+        // Highlight Cells
+
         spreadsheet.conditionalFormat({
             type: 'GreaterThan',
             value: '1000',
@@ -45,22 +81,21 @@ Apply rules to automatically format cells based on their values (e.g., highlight
             range: 'B2:B100'
         });
 
-        // === Type 2: Between ===
         spreadsheet.conditionalFormat({
             type: 'Between',
             value: '100,500',
-            cFColor: 'BlueFT',
+            cFColor: 'GreenFT',
             range: 'D2:D100'
         });
 
-        // === Type 3: AboveAverage ===
+        // Top / Bottom
+
         spreadsheet.conditionalFormat({
             type: 'AboveAverage',
             cFColor: 'GreenFT',
             range: 'F2:F100'
         });
 
-        // === Type 4: Top 10 Items ===
         spreadsheet.conditionalFormat({
             type: 'Top10Items',
             value: '10',
@@ -68,38 +103,77 @@ Apply rules to automatically format cells based on their values (e.g., highlight
             range: 'G2:G100'
         });
 
-        // === Type 5: Color Scale ===
+        // Color Scale
+
         spreadsheet.conditionalFormat({
             type: 'RYGColorScale',
             range: 'H2:H100'
         });
 
-        // === Type 6: Icon Sets ===
+        // Icon Set
+
         spreadsheet.conditionalFormat({
             type: 'ThreeTrafficLights1',
             range: 'I2:I100'
         });
 
-        // === Type 7: Data Bars ===
+        // Data Bar
+
         spreadsheet.conditionalFormat({
             type: 'BlueDataBar',
             range: 'J2:J100'
         });
 
-        // === Clear Conditional Formatting Rules ===
-        spreadsheet.clearConditionalFormat('E2:E30'); // Clear specific range
-        spreadsheet.clearConditionalFormat();         // Clear all rules
-    }
-</script>
+        // Formula-based Conditional Formatting
 
+        spreadsheet.conditionalFormat({
+            type: 'Formula',
+            cFColor: 'GreenFT',
+            value: '=H2>AVG(H2:H9)',
+            range: 'H2:H9'
+        });
+
+        // Formula rule with custom format
+
+        spreadsheet.conditionalFormat({
+            type: 'Formula',
+            value: '=B2>700',
+            format: {
+                style: {
+                    color: '#ffffff',
+                    backgroundColor: '#009999',
+                    fontWeight: 'bold'
+                }
+            },
+            range: 'B2:B30'
+        });
+
+        // Clear rules from a specific range
+
+        spreadsheet.clearConditionalFormat(
+            'E2:E30'
+        );
+
+        // Clear rules using sheet name in range
+
+        spreadsheet.clearConditionalFormat(
+            'Sheet1!F2:F30'
+        );
+
+        // Clear all rules
+
+        spreadsheet.clearConditionalFormat();
+    }
+
+</script>
 ```
 
 ## Placeholders for Conditional Format
  
 | Placeholder  | Description                                  | Example                                                             |
 |--------------|----------------------------------------------|---------------------------------------------------------------------|
-| `[TYPE]`     | Specifies the conditional formatting type    | `'HighlightCell'`, `'TopBottom'`, `'DataBar'`, `'ColorScale'`, `'IconSet'` |
-| `[VALUE]`    | Specifies the conditional formatting value   | `'string'`                                                          |
+| `[TYPE]` | Specifies the conditional formatting type | `'HighlightCell'`, `'TopBottom'`, `'DataBar'`, `'ColorScale'`, `'IconSet'`, `'Formula'` |
+| `[VALUE]` | Specifies the conditional formatting value | `'string'`, `'=H2>AVG(H2:H9)'` (formula expression for `'Formula'` type) |
 | `[CFCOLOR]`  | Specifies the highlight color style          | `'RedFT'`, `'GreenFT'`, `'YellowFT'`                               |
 | `[FORMAT]`   | Specifies the format model                   | `'FormatModel'`                                                     |
 | `[RANGE]`    | Specifies the conditional formatting range   | `'A1:A10'`, `'Sheet1!A1:A10'`                                       |
@@ -141,6 +215,36 @@ type IconSet = 'ThreeArrows' | 'ThreeArrowsGray' | 'FourArrowsGray' |
   'FiveRating' | 'ThreeTriangles' | 'ThreeStars' | 'FiveBoxes';
 ```
 
+### Formula-based Conditional Format
+
+```cshtml
+type Formula = 'Formula';
+```
+
+Formula-based conditional formatting applies custom formatting rules using an Excel formula. When the formula in `value` evaluates to `TRUE` for a cell, the formatting (`cFColor` or custom `format`) is applied to that cell.
+
+This enables advanced highlighting scenarios based on values from other cells or ranges in the worksheet, beyond the built-in Highlight Cell and Top Bottom conditions.
+
+```cshtml
+// Highlight cells in B2:B30 whose value exceeds a fixed threshold
+spreadsheet.conditionalFormat({
+    type: 'Formula',
+    value: '=B2>700',
+    cFColor: 'RedT',
+    range: 'B2:B30'
+});
+
+// Highlight cells in H6:H9 that exceed 5000
+spreadsheet.conditionalFormat({
+    type: 'Formula',
+    value: '=H6>5000',
+    cFColor: 'RedT',
+    range: 'H6:H9'
+});
+```
+
+> The formula should reference the top-left cell of the applied `range` (similar to Excel), and the relative reference is evaluated for each cell within the range.
+
 ## Color Format Values (`cFColor`)
  
 The `cFColor` property specifies the fill and text color using built-in Syncfusion styles.
@@ -162,3 +266,9 @@ Interface for a class Format used in conditional formatting.
 | `format`    | Specifies the number format        | `'$#,##0.00'`  |
 | `isLocked`  | Specifies if the cell is locked    | `true`/`false` |
 | `style`     | Specifies the cell style           | `StyleModel`   |
+
+## Notes
+
+- Formula-based rules support both the preset `cFColor` styles and a custom `format` (cell style) object.
+- Insert/delete of rows or columns within a conditionally formatted range is not supported.
+- Copy/paste of cells that have conditional formatting applied is not supported.

@@ -223,3 +223,15 @@ spreadsheet.clear({ type: 'Clear Contents', range: 'A2:D20' });
 ```
 
 Removes applied styles (fonts, colors, borders, alignment) from the specified range using the `clear()` method with type.
+
+## Notes
+
+- **Best Practice**: Use `cellFormat()` for simple formatting; use `setBorder()` for precise border control
+- **Best Practice**: Apply formatting to headers (row 1) separately for consistency
+- **Best Practice**: Use consistent font families across sheets (Arial, Verdana, Calibri)
+- **Gotcha**: `setBorder()` with `'Outer'` only adds border to range perimeter, not internal lines
+- **Gotcha**: `backgroundColor` uses hex format, not CSS color names (use `'#FF0000'` not `'red'`)
+- **Gotcha**: Border styles may not be visible if color matches cell background
+- **Gotcha**: Long text automatically overflows into adjacent empty cells when the content width exceeds the current cell width.
+- **Gotcha**: Text overflow is automatically refreshed when cell values, formatting, column widths, or rich text content change.
+- **Performance**: Formatting many cells (100k+) can be slow; apply in batches
